@@ -1,0 +1,101 @@
+<map id="/home/travis/build/AliceO2Group/AliceO2/Framework/Core/include/Framework/FairMQDeviceProxy.h" name="/home/travis/build/AliceO2Group/AliceO2/Framework/Core/include/Framework/FairMQDeviceProxy.h">
+<area shape="rect" id="node2" href="$d8/da2/ArrowContext_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/ArrowContext.h" alt="" coords="9582,126,9769,197"/>
+<area shape="rect" id="node3" href="$d1/d28/DataAllocator_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/DataAllocator.h" alt="" coords="9279,246,9463,317"/>
+<area shape="rect" id="node5" href="$db/dac/DataProcessingDevice_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/DataProcessing\lDevice.cxx" alt="" coords="45,1099,287,1170"/>
+<area shape="rect" id="node37" href="$d0/d9f/DataSourceDevice_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/DataSource\lDevice.cxx" alt="" coords="10105,1099,10323,1170"/>
+<area shape="rect" id="node97" href="$dc/dc4/MessageContext_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/MessageContext.h" alt="" coords="9793,126,9998,197"/>
+<area shape="rect" id="node98" href="$d2/d80/RootObjectContext_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/RootObjectContext.h" alt="" coords="10022,126,10241,197"/>
+<area shape="rect" id="node99" href="$dd/df6/StringContext_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/StringContext.h" alt="" coords="9281,126,9467,197"/>
+<area shape="rect" id="node100" href="$d4/dae/FairMQDeviceProxy_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/FairMQDevice\lProxy.cxx" alt="" coords="10353,126,10586,197"/>
+<area shape="rect" id="node4" href="$d3/d4b/DataProcessingDevice_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/DataProcessingDevice.h" alt="" coords="46,979,286,1050"/>
+<area shape="rect" id="node36" href="$dd/d96/DataSourceDevice_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/DataSourceDevice.h" alt="" coords="9445,979,9661,1050"/>
+<area shape="rect" id="node95" href="$db/d9d/DataAllocator_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/DataAllocator.cxx" alt="" coords="9923,373,10177,429"/>
+<area shape="rect" id="node96" href="$dd/dd9/DataProcessor_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/DataProcessor.cxx" alt="" coords="9814,253,10074,309"/>
+<area shape="rect" id="node7" href="$d0/df4/DataProcessorSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/DataProcessorSpec.h" alt="" coords="4157,606,4379,677"/>
+<area shape="rect" id="node30" href="$d6/d03/ExternalFairMQDeviceProxy_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/ExternalFairMQDevice\lProxy.h" alt="" coords="8242,725,8469,811"/>
+<area shape="rect" id="node39" href="$d6/d53/test__FrameworkDataFlowToDDS_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_FrameworkDataFlowToDDS.cxx" alt="" coords="9298,1099,9517,1170"/>
+<area shape="rect" id="node45" href="$d2/da2/test__DataAllocator_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_DataAllocator.cxx" alt="" coords="311,979,485,1050"/>
+<area shape="rect" id="node50" href="$d6/d0d/test__RootTreeReader_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/test\l/test_RootTreeReader.cxx" alt="" coords="1753,979,1929,1050"/>
+<area shape="rect" id="node51" href="$d1/d02/test__RootTreeWriterWorkflow_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/test\l/test_RootTreeWriterWorkflow.cxx" alt="" coords="510,979,733,1050"/>
+<area shape="rect" id="node91" href="$de/d6a/ProcessingContext_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/ProcessingContext.h" alt="" coords="9256,366,9473,437"/>
+<area shape="rect" id="node93" href="$df/d66/test__AlgorithmSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_AlgorithmSpec.cxx" alt="" coords="799,606,973,677"/>
+<area shape="rect" id="node6" href="$d7/d54/runDataProcessing_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/runDataProcessing.cxx" alt="" coords="8867,1107,9151,1163"/>
+<area shape="rect" id="node8" href="$d3/d55/CATrackerSpec_8h.html" title="Processor spec for running TPC CA tracking. " alt="" coords="6889,733,7059,803"/>
+<area shape="rect" id="node11" href="$dd/d9a/ClusterConverterSpec_8h.html" title="Processor spec for converter of TPC clusters to HW cluster raw data. " alt="" coords="7084,733,7271,803"/>
+<area shape="rect" id="node13" href="$d3/dfa/ClusterDecoderRawSpec_8h.html" title="Processor spec for decoder of TPC raw cluster data. " alt="" coords="7296,733,7502,803"/>
+<area shape="rect" id="node15" href="$dd/de0/ClustererSpec_8h.html" title="spec definition for a TPC clusterer process " alt="" coords="4426,733,4597,803"/>
+<area shape="rect" id="node17" href="$d6/d59/ClusterReaderSpec_8h.html" title="Processor spec for a reader of TPC data from ROOT file. " alt="" coords="6299,733,6473,803"/>
+<area shape="rect" id="node19" href="$d1/dfa/DigitReaderSpec_8h.html" title="Processor spec for a reader of TPC data from ROOT file. " alt="" coords="6497,733,6667,803"/>
+<area shape="rect" id="node21" href="$d9/d37/RootFileWriterSpec_8h.html" title="Processor spec for a ROOT file writer. " alt="" coords="6691,733,6865,803"/>
+<area shape="rect" id="node23" href="$d3/d2c/ChannelMatching_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/ChannelMatching.h" alt="" coords="8660,859,8866,930"/>
+<area shape="rect" id="node25" href="$d7/d78/DataSampling_8h.html" title="Definition of O2 Data Sampling, v0.1. " alt="" coords="7887,859,8074,930"/>
+<area shape="rect" id="node27" href="$d3/dbe/dataSamplingParallel_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/dataSamplingParallel.cxx" alt="" coords="7386,979,7581,1050"/>
+<area shape="rect" id="node28" href="$de/da3/dataSamplingPodAndRoot_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/dataSamplingPodAndRoot.cxx" alt="" coords="7605,979,7831,1050"/>
+<area shape="rect" id="node29" href="$db/d9e/dataSamplingTimePipeline_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/dataSamplingTimePipeline.cxx" alt="" coords="7855,979,8082,1050"/>
+<area shape="rect" id="node35" href="$df/de8/DeviceSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/DeviceSpec.h" alt="" coords="8993,859,9170,930"/>
+<area shape="rect" id="node38" href="$df/dda/DeviceSpecHelpers_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/DeviceSpec\lHelpers.h" alt="" coords="9149,979,9369,1050"/>
+<area shape="rect" id="node40" href="$d8/d33/test__CompletionPolicies_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/test_CompletionPolicies.cxx" alt="" coords="8387,979,8601,1050"/>
+<area shape="rect" id="node41" href="$d7/d33/Dispatcher_8h.html" title="Definition of Dispatcher for O2 Data Sampling. " alt="" coords="7896,733,8065,803"/>
+<area shape="rect" id="node42" href="$db/dd0/runDataProcessing_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/runDataProcessing.h" alt="" coords="1153,859,1370,930"/>
+<area shape="rect" id="node43" href="$db/d30/test__CallbackService_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_CallbackService.cxx" alt="" coords="759,979,933,1050"/>
+<area shape="rect" id="node44" href="$df/d3d/test__CustomGUI_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_CustomGUI.cxx" alt="" coords="957,979,1131,1050"/>
+<area shape="rect" id="node46" href="$d3/d66/test__Parallel_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_Parallel.cxx" alt="" coords="1156,979,1330,1050"/>
+<area shape="rect" id="node47" href="$d0/d0b/test__ParallelProducer_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_ParallelProducer.cxx" alt="" coords="1355,979,1529,1050"/>
+<area shape="rect" id="node48" href="$d1/d4f/test__TimePipeline_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_TimePipeline.cxx" alt="" coords="1553,979,1727,1050"/>
+<area shape="rect" id="node49" href="$d3/d09/o2ParallelWorkflow_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/o2ParallelWorkflow.cxx" alt="" coords="1953,979,2138,1050"/>
+<area shape="rect" id="node52" href="$df/da1/WorkflowSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/WorkflowSpec.h" alt="" coords="7629,733,7819,803"/>
+<area shape="rect" id="node53" href="$d1/d43/WorkflowSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/Workflow\lSpec.cxx" alt="" coords="7028,859,7231,930"/>
+<area shape="rect" id="node54" href="$df/da4/DPLBroadcasterMerger_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/test\l/DPLBroadcasterMerger.h" alt="" coords="4027,859,4201,930"/>
+<area shape="rect" id="node55" href="$d1/d35/DPLBroadcasterMerger_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/test\l/DPLBroadcasterMerger.cxx" alt="" coords="2401,979,2587,1050"/>
+<area shape="rect" id="node56" href="$da/d41/DPLOutputTest_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/test\l/DPLOutputTest.h" alt="" coords="7307,859,7465,930"/>
+<area shape="rect" id="node57" href="$da/d34/DPLOutputTest_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/test\l/DPLOutputTest.cxx" alt="" coords="4310,979,4467,1050"/>
+<area shape="rect" id="node58" href="$d0/d44/test__DataProcessorSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_DataProcessorSpec.cxx" alt="" coords="2845,733,3019,803"/>
+<area shape="rect" id="node59" href="$d2/d44/o2__sim__its__ALP3_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/o2_sim_its_ALP3.h" alt="" coords="3044,733,3226,803"/>
+<area shape="rect" id="node60" href="$d8/d29/o2__sim__tpc_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/o2_sim_tpc.h" alt="" coords="3251,733,3433,803"/>
+<area shape="rect" id="node61" href="$d5/dc8/MakeRootTreeWriterSpec_8h.html" title="Configurable generator for RootTreeWriter processor spec. " alt="" coords="505,733,723,803"/>
+<area shape="rect" id="node62" href="$d2/d04/Framework_2Utils_2include_2Utils_2Utils_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/include\l/Utils/Utils.h" alt="" coords="1561,733,1727,803"/>
+<area shape="rect" id="node63" href="$d5/d63/DPLBroadcaster_8cxx.html" title="Implementation of generic DPL broadcaster, v0.1. " alt="" coords="1547,867,1817,923"/>
+<area shape="rect" id="node64" href="$d2/d37/DPLGatherer_8cxx.html" title="Implementation of generic DPL gatherer, v0.1. " alt="" coords="1841,867,2090,923"/>
+<area shape="rect" id="node65" href="$de/d40/DPLMerger_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/src/DPLMerger.cxx" alt="" coords="2115,867,2353,923"/>
+<area shape="rect" id="node66" href="$d9/d0e/DPLRouter_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Utils/src/DPLRouter.cxx" alt="" coords="2480,867,2718,923"/>
+<area shape="rect" id="node67" href="$dd/d71/CollisionTimePrinter_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/CollisionTimePrinter.h" alt="" coords="1854,733,2030,803"/>
+<area shape="rect" id="node68" href="$d3/d87/CollisionTimePrinter_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/CollisionTimePrinter.cxx" alt="" coords="2743,859,2933,930"/>
+<area shape="rect" id="node69" href="$dc/dfe/FITDigitizerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/FITDigitizerSpec.h" alt="" coords="2105,733,2269,803"/>
+<area shape="rect" id="node70" href="$dd/dfe/FITDigitizerSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/FITDigitizerSpec.cxx" alt="" coords="2958,859,3129,930"/>
+<area shape="rect" id="node71" href="$df/dc5/FITDigitWriterSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/FITDigitWriterSpec.h" alt="" coords="3991,733,4162,803"/>
+<area shape="rect" id="node72" href="$da/dcd/GRPUpdaterSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/GRPUpdaterSpec.h" alt="" coords="4187,733,4350,803"/>
+<area shape="rect" id="node73" href="$de/d49/ITSMFTDigitizerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/ITSMFTDigitizerSpec.h" alt="" coords="2345,733,2530,803"/>
+<area shape="rect" id="node74" href="$d3/d43/ITSMFTDigitizerSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/ITSMFTDigitizerSpec.cxx" alt="" coords="3153,859,3351,930"/>
+<area shape="rect" id="node75" href="$d1/d57/ITSMFTDigitWriterSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/ITSMFTDigitWriterSpec.h" alt="" coords="4621,733,4819,803"/>
+<area shape="rect" id="node76" href="$d1/d8a/SimReaderSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/SimReaderSpec.h" alt="" coords="2555,733,2718,803"/>
+<area shape="rect" id="node77" href="$d3/d13/SimReaderSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/SimReaderSpec.cxx" alt="" coords="3377,859,3545,930"/>
+<area shape="rect" id="node78" href="$d6/dad/TPCDriftTimeDigitizerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TPCDriftTimeDigitizerSpec.h" alt="" coords="3458,733,3677,803"/>
+<area shape="rect" id="node79" href="$db/df6/TPCDriftTimeDigitizerSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TPCDriftTimeDigitizerSpec.cxx" alt="" coords="3569,859,3801,930"/>
+<area shape="rect" id="node80" href="$d0/d34/TPCDigitRootWriterSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TPCDigitRootWriterSpec.h" alt="" coords="5099,733,5305,803"/>
+<area shape="rect" id="node81" href="$d7/d11/TOFDigitizerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TOFDigitizerSpec.h" alt="" coords="3803,733,3966,803"/>
+<area shape="rect" id="node82" href="$d6/d61/TOFDigitizerSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TOFDigitizerSpec.cxx" alt="" coords="3825,859,4002,930"/>
+<area shape="rect" id="node83" href="$d1/d0b/TOFDigitWriterSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TOFDigitWriterSpec.h" alt="" coords="5600,733,5777,803"/>
+<area shape="rect" id="node84" href="$d1/d97/TOFClusterizerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TOFClusterizerSpec.h" alt="" coords="4845,733,5023,803"/>
+<area shape="rect" id="node85" href="$da/df1/TOFClusterizerSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TOFClusterizerSpec.cxx" alt="" coords="4845,859,5037,930"/>
+<area shape="rect" id="node86" href="$d3/dba/TOFClusterWriterSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Steer/DigitizerWorkflow\l/src/TOFClusterWriterSpec.h" alt="" coords="6083,733,6275,803"/>
+<area shape="rect" id="node87" href="$d3/dba/RootObjectMergerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Utilities/QC/Workflow\l/src/RootObjectMergerSpec.h" alt="" coords="5330,733,5525,803"/>
+<area shape="rect" id="node88" href="$d0/d94/RootObjectMergerSpec_8cxx.html" title="Processor spec for a merger for ROOT objects. " alt="" coords="5068,859,5277,930"/>
+<area shape="rect" id="node89" href="$db/d5e/RootObjectProducerSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Utilities/QC/Workflow\l/src/RootObjectProducerSpec.h" alt="" coords="5801,733,6007,803"/>
+<area shape="rect" id="node90" href="$d6/d5e/RootObjectProducerSpec_8cxx.html" title="Processor spec for a test data producer for ROOT objects. " alt="" coords="5302,859,5523,930"/>
+<area shape="rect" id="node9" href="$da/d78/CATrackerSpec_8cxx.html" title="Processor spec for running TPC CA tracking. " alt="" coords="6361,859,6531,930"/>
+<area shape="rect" id="node10" href="$d5/d53/RecoWorkflow_8cxx.html" title="Workflow definition for the TPC reconstruction. " alt="" coords="6166,859,6337,930"/>
+<area shape="rect" id="node12" href="$da/d65/ClusterConverterSpec_8cxx.html" title="Processor spec for converter of TPC clusters to HW cluster raw data. " alt="" coords="6555,859,6758,930"/>
+<area shape="rect" id="node14" href="$d9/d7b/ClusterDecoderRawSpec_8cxx.html" title="Processor spec for decoder of TPC raw cluster data. " alt="" coords="6782,859,7003,930"/>
+<area shape="rect" id="node16" href="$d8/dce/ClustererSpec_8cxx.html" title="spec definition for a TPC clusterer process " alt="" coords="4426,859,4597,930"/>
+<area shape="rect" id="node18" href="$d0/de5/ClusterReaderSpec_8cxx.html" title="Processor spec for a reader of TPC data from ROOT file. " alt="" coords="5547,859,5734,930"/>
+<area shape="rect" id="node20" href="$d5/dce/DigitReaderSpec_8cxx.html" title="Processor spec for a reader of TPC data from ROOT file. " alt="" coords="5759,859,5930,930"/>
+<area shape="rect" id="node22" href="$d7/d0c/RootFileWriterSpec_8cxx.html" title="Processor spec for a ROOT file writer. " alt="" coords="5955,859,6142,930"/>
+<area shape="rect" id="node24" href="$d8/d84/DeviceSpec_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/DeviceSpec.cxx" alt="" coords="8727,987,8973,1043"/>
+<area shape="rect" id="node26" href="$d0/dd6/DataSampling_8cxx.html" title="Implementation of O2 Data Sampling, v0.1. " alt="" coords="8106,987,8362,1043"/>
+<area shape="rect" id="node31" href="$dc/dc8/DataSamplingReadoutAdapter_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/DataSamplingReadoutAdapter.h" alt="" coords="8251,859,8533,930"/>
+<area shape="rect" id="node32" href="$dc/df3/ExternalFairMQDeviceProxy_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/src/External\lFairMQDeviceProxy.cxx" alt="" coords="9398,859,9595,930"/>
+<area shape="rect" id="node33" href="$d1/dd3/test__ExternalFairMQDeviceProxy_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/test/test\l_ExternalFairMQDeviceProxy.cxx" alt="" coords="7591,859,7810,930"/>
+<area shape="rect" id="node34" href="$da/d19/test__RawDeviceInjector_8cxx.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/TestWorkflows\l/src/test_RawDeviceInjector.cxx" alt="" coords="2163,979,2377,1050"/>
+<area shape="rect" id="node92" href="$d0/d14/AlgorithmSpec_8h.html" title="/home/travis/build\l/AliceO2Group/AliceO2\l/Framework/Core/include\l/Framework/AlgorithmSpec.h" alt="" coords="9267,486,9457,557"/>
+<area shape="rect" id="node94" href="$dc/d55/DPLBoostSerializer_8h.html" title="DPL wrapper of common utils BoostSeralizer. " alt="" coords="9023,486,9242,557"/>
+</map>
