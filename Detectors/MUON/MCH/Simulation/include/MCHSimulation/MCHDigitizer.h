@@ -21,7 +21,10 @@
 #include "MCHSimulation/Geometry.h"
 #include "MCHSimulation/Hit.h"
 #include "MCHSimulation/Response.h"
+
 #include "MCHMappingInterface/Segmentation.h"
+
+#include "SimulationDataFormat/MCTruthContainer.h" 
 
 #include "TGeoManager.h"
 

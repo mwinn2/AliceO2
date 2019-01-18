@@ -40,6 +40,9 @@ class Digit : public DigitBase
   double getADC() const { return mADC; }
   void setADC(double adc) { mADC = adc; }
 
+  int getLabel() const { return mLabel; }
+  void setLabel(Int_t label) { mLabel = label; }
+  
   double getTimeStamp() { return mTime; }
   void setTimeStamp(double time) { mTime = time; }
 
