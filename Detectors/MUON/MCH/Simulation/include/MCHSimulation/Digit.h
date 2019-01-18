@@ -47,6 +47,7 @@ class Digit : public DigitBase
   int mPadID;
   double mADC;
   double mTime;
+  int mlabel;
 
   ClassDefNV(Digit, 1);
 }; //class Digit
