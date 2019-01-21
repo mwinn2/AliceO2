@@ -42,14 +42,10 @@ class Digit : public DigitBase
 
   int getLabel() const { return mLabel; }
   void setLabel(Int_t label) { mLabel = label; }
-  
-  double getTimeStamp() { return mTime; }
-  void setTimeStamp(double time) { mTime = time; }
 
  private:
   int mPadID;
   double mADC;
-  double mTime;
   int mlabel;
 
   ClassDefNV(Digit, 1);
