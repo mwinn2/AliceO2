@@ -55,6 +55,12 @@ class Digitizer
   void setContinuous(bool val) { mContinuous = val; }
   bool isContinuous() const { return mContinuous; }
 
+  void setSrcID(int v);
+  int getSrcID() const { return mSrcID; }
+
+  void setEvID(int v);
+  int getEvID() const { return mEventID; }
+  
  private:
   double mEventTime;
   int mReadoutWindowCurrent{ 0 };
@@ -67,15 +73,19 @@ class Digitizer
   const static int mNdE = 156;
   // digit per pad
   std::vector<Digit> mDigits;
-
+  //map between index and detector-element-ID
   std::map<int, int> mdetID;
-
+  //segmentation for each detector-element
   std::vector<mapping::Segmentation> mSeg;
 
+  //MCLabel container (transient)
+  o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthContainer;
+  //MCLabel container (output)
+  o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthOutputContainer;
   //member with parameters and signal generation
   Response mMuonresponse;
 
-  int processHit(const Hit& hit, double event_time);
+  int processHit(const Hit& hit, double event_time, int labelIndex);
 };
 
 } // namespace mch

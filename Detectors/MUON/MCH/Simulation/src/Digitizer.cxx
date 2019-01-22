@@ -60,21 +60,39 @@ void Digitizer::init()
 
 void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
 {
+
+  digits.clear();
+  mDigits.clear();
+  mMCTruthContainer.clear();
+  
   //array of MCH hits for a given simulated event
+  //to be added: exception handling
   for (auto& hit : hits) {
-    processHit(hit, mEventTime);
+    int labelIndex = mMCTruthContainer.getIndexedSize();//index for this hit
+    processHit(hit, mEventTime, labelIndex);
+
+    MCCompLabel label(hit.GetTrackID(), mEventID, msrcID);
+    //Todo:: check/update DPL workflow how EventID and srcID set
+    mMCTruthContainer.addElementRandomAccess(labelIndex,label);//ToDo: check if needed like this
+
+    auto labels = mMCTruthContainer.getLabels(labelIndex);
+    std::sort(labels.begin(), labels.end());
   } // end loop over hits
   //TODO: merge (new member function, add charge) of digits that are on same pad:
   //things to think about in terms of time costly
 
-  digits.clear();
   fillOutputContainer(digits);
 }
 
 //______________________________________________________________________
-int Digitizer::processHit(const Hit& hit, double event_time)
+int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
 {
-
+  //Question: what happens if several tracks producing signal on same pad up to now? -> should be additive? is this the case?
+  //labelIndex: to be done:
+  //assign the labelIndex to every digit that corresponds to
+  //this hit
+  //if multiple hits on producing same digit or multiple
+  
   //hit position(cm)
   Point3D<float> pos(hit.GetX(), hit.GetY(), hit.GetZ());
   //hit has global coordinates
@@ -156,7 +174,9 @@ int Digitizer::processHit(const Hit& hit, double event_time)
     //translate charge in signal
     signal = mMuonresponse.response(signal, detID);
     //write digit
-    mDigits.emplace_back(padidbend, signal);
+    mDigits.emplace_back(padidbend, signal, labelIndex);
+    //to do check if label is really making sense
+    //i.e. what happens if multiple hits for one pad
     ++ndigits;
     //  }
   }
@@ -197,10 +217,36 @@ void Digitizer::fillOutputContainer(std::vector<Digit>& digits)
     digits.emplace_back(*iter);
   }
   mDigits.erase(itBeg, iter);
+
+  //why needed and not directly in MCTruthContainer for EMCal?
+  //check how this is written into the output in DPL workflow
+  mMCTruthOutputContainer.clear();
+  for (int index =0; index < mMCTruthContainer.getIndexedSize(); ++index) {
+    mMCTruthOutputContainer.addElements(index, mMCTruthContainer.getLabels(index));
+  }
+  
 }
 //______________________________________________________________________
 void Digitizer::flushOutputContainer(std::vector<Digit>& digits)
 { // flush all residual buffered data
-  //not clear if neede in DPL
+  //not clear if neede in DPL, presumably not
   fillOutputContainer(digits);
+}
+//______________________________________________________________________
+void Digitizer::setSrcID(int v)
+{
+  //set current MC source ID
+  if (v > MCCompLabel::maxSourceID()) {
+    LOG(FATAL) << "MC source id " << v << " exceeds max storable in the label " << MCCompLabel::maxSourceID() << FairLogger::endl;
+  }
+  mSrcID = v;
+}
+//______________________________________________________________________
+void Digitizer::setEvID( int v )
+{
+  // set current MC event ID
+  if (v > MCCompLabel::maxEventID()) {
+    LOG(FATAL) << "MC event id " << v << " exceeds max storabel in the label " << MCComplabel::maxEventID() << FairLogger::endl;
+  }
+  mEvID = v; 
 }
