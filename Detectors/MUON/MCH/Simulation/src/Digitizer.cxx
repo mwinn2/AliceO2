@@ -242,7 +242,7 @@ void Digitizer::setSrcID(int v)
   mSrcID = v;
 }
 //______________________________________________________________________
-void Digitizer::setEvID( int v )
+void Digitizer::setEventID( int v )
 {
   // set current MC event ID
   if (v > MCCompLabel::maxEventID()) {

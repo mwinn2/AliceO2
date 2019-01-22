@@ -24,6 +24,7 @@
 
 #include "MCHMappingInterface/Segmentation.h"
 
+#include "SimulationDataFormat/MCCompLabel.h"
 #include "SimulationDataFormat/MCTruthContainer.h" 
 
 #include "TGeoManager.h"
@@ -43,8 +44,6 @@ class Digitizer
   void init();
 
   void setEventTime(double timeNS) { mEventTime = timeNS; }
-  void setEventID(int eventID) { mEventID = eventID; }
-  void setSrcID(int sID) { mSrcID = sID; }
 
   //process hits: fill digit vector with digits
   void process(const std::vector<Hit> hits, std::vector<Digit>& digits);
@@ -58,8 +57,8 @@ class Digitizer
   void setSrcID(int v);
   int getSrcID() const { return mSrcID; }
 
-  void setEvID(int v);
-  int getEvID() const { return mEventID; }
+  void setEventID(int v);
+  int getEventID() const { return mEventID; }
   
  private:
   double mEventTime;
