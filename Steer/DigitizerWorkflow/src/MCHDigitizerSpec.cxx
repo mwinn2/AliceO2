@@ -127,7 +127,7 @@ class MCHDPLDigitizerTask
       }
     }
     
-    LOG(INFO) << "Have " << labelAccum.getNElements() << " EMCAL labels ";
+    LOG(INFO) << "Have " << labelAccum.getNElements() << " MCH labels ";//does not work out!
     pc.outputs().snapshot(Output{ "MCH", "DIGITS", 0, Lifetime::Timeframe }, digitsAccum);
     pc.outputs().snapshot(Output{"MCH","DIGITSMCTR", 0, Lifetime::Timeframe }, labelAccum);
     LOG(INFO) << "MCH: Sending ROMode= " << mROMode << " to GRPUpdater";
