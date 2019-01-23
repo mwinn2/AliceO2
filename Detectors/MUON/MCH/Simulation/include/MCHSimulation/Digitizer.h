@@ -47,9 +47,9 @@ class Digitizer
 
   //process hits: fill digit vector with digits
   void process(const std::vector<Hit> hits, std::vector<Digit>& digits);
+  void provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mcContainer);
 
   void fillOutputContainer(std::vector<Digit>& digits);
-  void flushOutputContainer(std::vector<Digit>& digits);
 
   void setContinuous(bool val) { mContinuous = val; }
   bool isContinuous() const { return mContinuous; }
@@ -80,7 +80,7 @@ class Digitizer
 
   //MCLabel container (transient)
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthContainer;
-  //MCLabel container (output)
+  //MCLabel container (output): why needed?
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthOutputContainer;
   //member with parameters and signal generation
   Response mMuonresponse;

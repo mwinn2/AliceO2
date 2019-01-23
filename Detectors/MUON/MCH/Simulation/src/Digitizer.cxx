@@ -77,6 +77,8 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
     auto labels = mMCTruthContainer.getLabels(labelIndex);
     std::sort(labels.begin(), labels.end());
   } // end loop over hits
+  std::cout << "mMCTruthContainer.getIndexedSize() " << mMCTruthContainer.getIndexedSize() << std::endl;
+  std::cout << "MMCTruthContainer.getNElements() " << mMCTruthContainer.getNElements() << std::endl;
   //TODO: merge (new member function, add charge) of digits that are on same pad:
   //things to think about in terms of time costly
 
@@ -223,12 +225,6 @@ void Digitizer::fillOutputContainer(std::vector<Digit>& digits)
   }
 }
 //______________________________________________________________________
-void Digitizer::flushOutputContainer(std::vector<Digit>& digits)
-{ // flush all residual buffered data
-  //not clear if neede in DPL, presumably not
-  fillOutputContainer(digits);
-}
-//______________________________________________________________________
 void Digitizer::setSrcID(int v)
 {
   //set current MC source ID
@@ -245,4 +241,19 @@ void Digitizer::setEventID( int v )
     LOG(FATAL) << "MC event id " << v << " exceeds max storabel in the label " << MCCompLabel::maxEventID() << FairLogger::endl;
   }
   mEventID = v; 
+}
+//______________________________________________________________________
+void provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mcContainer)
+{
+  //fill MCtruth info
+  //works only if called after process (ugly!!!!!)
+  mcContainer.clear();
+  if (mMCTruthOutputContainer.getNElements()==0)//tbc if working...
+      return;
+  
+  for (int index =0; index < mMCTruthOutputContainer.getIndexedSize(); ++index) {
+    mcContainer.addElements(index, mMCTruthOutputContainer.getLabels(index));
+  }
+  
+  mMCTruthOutputContainer.clear();
 }

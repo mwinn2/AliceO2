@@ -115,6 +115,7 @@ class MCHDPLDigitizerTask
 	o2::dataformats::MCTruthContainer<o2::MCCompLabel>  labels;//TODO: not clear where and how this is filled!
 
         mDigitizer.process(hits, digits);
+	mDigitizer.provideMC(labels);
         LOG(INFO) << "MCH obtained " << digits.size() << " digits ";
         for (auto& d : digits) {
           LOG(INFO) << "ADC " << d.getADC();
@@ -123,6 +124,8 @@ class MCHDPLDigitizerTask
         }
         std::copy(digits.begin(), digits.end(), std::back_inserter(digitsAccum));
 	labelAccum.mergeAtBack(labels);
+	std::cout<< "labelAccum.getIndexedSize()  "<< labelAccum.getIndexedSize()  << std::endl;
+	std::cout<< "labelAccum.getNElements() " << labelAccum.getNElements() << std::endl;
 	LOG(INFO) << "Have " << digits.size() << " digits ";
       }
     }
