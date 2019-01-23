@@ -93,7 +93,8 @@ class MCHDPLDigitizerTask
 
     auto& eventParts = context->getEventParts();
     std::vector<o2::mch::Digit> digitsAccum; // accumulator for digits
-
+    o2::dataformats::MCTruthContainer<o2::MCCompLabel> labelAccum;
+    
     // loop over all composite collisions given from context
     // (aka loop over all the interaction records)
     for (int collID = 0; collID < irecords.size(); ++collID) {
@@ -111,19 +112,26 @@ class MCHDPLDigitizerTask
         LOG(INFO) << "For collision " << collID << " eventID " << part.entryID << " found MCH " << hits.size() << " hits ";
 
         std::vector<o2::mch::Digit> digits; // digits which get filled
+	o2::dataformats::MCTruthContainer<o2::MCCompLabel>  labels;//TODO: not clear where and how this is filled!
 
         mDigitizer.process(hits, digits);
         LOG(INFO) << "MCH obtained " << digits.size() << " digits ";
         for (auto& d : digits) {
           LOG(INFO) << "ADC " << d.getADC();
           LOG(INFO) << "PAD " << d.getPadID();
+	  LOG(INFO) << " MCLabel " << d.getLabel();
         }
         std::copy(digits.begin(), digits.end(), std::back_inserter(digitsAccum));
+	labelAccum.mergeAtBack(labels);
+	LOG(INFO) << "Have " << digits.size() << " digits ";
       }
     }
+    
+    LOG(INFO) << "Have " << labelAccum.getNElements() << " EMCAL labels ";
     pc.outputs().snapshot(Output{ "MCH", "DIGITS", 0, Lifetime::Timeframe }, digitsAccum);
-
+    pc.outputs().snapshot(Output{"MCH","DIGITSMCTR", 0, Lifetime::Timeframe }, labelAccum);
     LOG(INFO) << "MCH: Sending ROMode= " << mROMode << " to GRPUpdater";
+    //ROMode: to be understood, check EMCal etc.
     pc.outputs().snapshot(Output{ "MCH", "ROMode", 0, Lifetime::Timeframe }, mROMode);
 
     // we should be only called once; tell DPL that this process is ready to exit
