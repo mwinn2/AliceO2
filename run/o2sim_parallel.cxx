@@ -26,6 +26,7 @@
 #include "CommonUtils/ShmManager.h"
 #include "TFile.h"
 #include "TTree.h"
+#include "Framework/FreePortFinder.h"
 
 const char* serverlogname = "serverlog";
 const char* workerlogname = "workerlog";
@@ -87,6 +88,45 @@ void sighandler(int signal)
   }
 }
 
+// updates/sets up the ports to be used in this simulation run
+// this should enable parallel instances of o2sim ... to be generalized
+// with DDS for example
+bool updatePorts(std::string configfilename)
+{
+  // original ports
+  const int SERVERPORT = 25005;
+  const int MERGERPORT = 25009;
+
+  int portstart = SERVERPORT;
+  int portend = 50000;
+  int step = 2; // we need 2 ports
+  o2::framework::FreePortFinder finder(portstart, portend, step);
+  finder.scan();
+  auto newserverport = finder.port();
+  auto newmergerport = newserverport + 1;
+
+  LOG(INFO) << "NEW SERVER PORT " << newserverport;
+  LOG(INFO) << "NEW MERGER PORT " << newmergerport;
+  // publish these numbers for other processes
+  setenv("ALICE_O2SIM_SERVERPORT", std::to_string(newserverport).c_str(), 1);
+  setenv("ALICE_O2SIM_MERGERPORT", std::to_string(newmergerport).c_str(), 1);
+
+  // fix ports in the configuration file template (there are for sure nicer ways of doing that
+  {
+    std::stringstream sedcmd;
+    sedcmd << "sed -i'.original' "
+           << "'s/:" << SERVERPORT << "/:" << newserverport << "/' " << configfilename;
+    auto r = system(sedcmd.str().c_str());
+  }
+  {
+    std::stringstream sedcmd;
+    sedcmd << "sed -i'.original' "
+           << "'s/:" << MERGERPORT << "/:" << newmergerport << "/' " << configfilename;
+    system(sedcmd.str().c_str());
+  }
+  return true;
+}
+
 // monitores a certain incoming pipe and displays new information
 void launchThreadMonitoringEvents(int pipefd, std::string text)
 {
@@ -131,12 +171,37 @@ int main(int argc, char* argv[])
   std::string rootpath(o2env);
   std::string installpath = rootpath + "/bin";
 
+  // copy topology file to working dir and update ports
   std::stringstream configss;
   configss << rootpath << "/share/config/o2simtopology.json";
+  std::string localconfig("o2simtopology.json");
+  std::stringstream cpcmd;
+  cpcmd << "cp " << configss.str() << " " << localconfig;
+  system(cpcmd.str().c_str());
+  updatePorts(localconfig.c_str());
 
   auto& conf = o2::conf::SimConfig::Instance();
   if (!conf.resetFromArguments(argc, argv)) {
     return 1;
+  }
+  // in case of zero events asked (only setup geometry etc) we just call the non-distributed version
+  // (otherwise we would need to add more synchronization between the actors)
+  if (conf.getNEvents() <= 0) {
+    LOG(INFO) << "No events to be simulated; Switching to non-distributed mode";
+    const int Nargs = argc + 1;
+    std::string name("o2sim_serial");
+    const char* arguments[Nargs];
+    arguments[0] = name.c_str();
+    for (int i = 1; i < argc; ++i) {
+      arguments[i] = argv[i];
+    }
+    arguments[argc] = nullptr;
+    std::string path = installpath + "/" + name;
+    auto r = execv(path.c_str(), (char* const*)arguments);
+    if (r != 0) {
+      perror(nullptr);
+    }
+    return r;
   }
 
   // we create the global shared mem pool; just enough to serve
@@ -171,7 +236,7 @@ int main(int argc, char* argv[])
 
     const std::string name("O2PrimaryServerDeviceRunner");
     const std::string path = installpath + "/" + name;
-    const std::string config = configss.str();
+    const std::string config = localconfig;
 
     // copy all arguments into a common vector
     const int Nargs = argc + 7;
@@ -227,7 +292,7 @@ int main(int argc, char* argv[])
       const std::string name("O2SimDeviceRunner");
       const std::string path = installpath + "/" + name;
       execl(path.c_str(), name.c_str(), "--control", "static", "--id", workerss.str().c_str(), "--config-key",
-            "worker", "--mq-config", configss.str().c_str(), "--severity", "info", (char*)nullptr);
+            "worker", "--mq-config", localconfig.c_str(), "--severity", "info", (char*)nullptr);
       return 0;
     } else {
       childpids.push_back(pid);
@@ -252,7 +317,7 @@ int main(int argc, char* argv[])
 
     const std::string name("O2HitMergerRunner");
     const std::string path = installpath + "/" + name;
-    execl(path.c_str(), name.c_str(), "--control", "static", "--id", "hitmerger", "--mq-config", configss.str().c_str(),
+    execl(path.c_str(), name.c_str(), "--control", "static", "--id", "hitmerger", "--mq-config", localconfig.c_str(),
           (char*)nullptr);
     return 0;
   } else {

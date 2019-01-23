@@ -59,7 +59,7 @@ class Digitizer
 
   void setEventID(int v);
   int getEventID() const { return mEventID; }
-  
+
  private:
   double mEventTime;
   int mReadoutWindowCurrent{ 0 };
@@ -72,6 +72,7 @@ class Digitizer
   const static int mNdE = 156;
   // digit per pad
   std::vector<Digit> mDigits;
+
   //map between index and detector-element-ID
   std::map<int, int> mdetID;
   //segmentation for each detector-element
@@ -85,6 +86,7 @@ class Digitizer
   Response mMuonresponse;
 
   int processHit(const Hit& hit, double event_time, int labelIndex);
+
 };
 
 } // namespace mch

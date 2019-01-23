@@ -60,7 +60,6 @@ void Digitizer::init()
 
 void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
 {
-
   digits.clear();
   mDigits.clear();
   mMCTruthContainer.clear();
@@ -92,7 +91,6 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
   //assign the labelIndex to every digit that corresponds to
   //this hit
   //if multiple hits on producing same digit or multiple
-  
   //hit position(cm)
   Point3D<float> pos(hit.GetX(), hit.GetY(), hit.GetZ());
   //hit has global coordinates
@@ -217,14 +215,12 @@ void Digitizer::fillOutputContainer(std::vector<Digit>& digits)
     digits.emplace_back(*iter);
   }
   mDigits.erase(itBeg, iter);
-
   //why needed and not directly in MCTruthContainer for EMCal?
   //check how this is written into the output in DPL workflow
   mMCTruthOutputContainer.clear();
   for (int index =0; index < mMCTruthContainer.getIndexedSize(); ++index) {
     mMCTruthOutputContainer.addElements(index, mMCTruthContainer.getLabels(index));
   }
-  
 }
 //______________________________________________________________________
 void Digitizer::flushOutputContainer(std::vector<Digit>& digits)
