@@ -70,7 +70,7 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
     int labelIndex = mMCTruthContainer.getIndexedSize();//index for this hit
     processHit(hit, mEventTime, labelIndex);
 
-    MCCompLabel label(hit.GetTrackID(), mEventID, msrcID);
+    MCCompLabel label(hit.GetTrackID(), mEventID, mSrcID);
     //Todo:: check/update DPL workflow how EventID and srcID set
     mMCTruthContainer.addElementRandomAccess(labelIndex,label);//ToDo: check if needed like this
 
@@ -195,7 +195,7 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
     //translate charge in signal
     signal = mMuonresponse.response(signal, detID);
     //write digit
-    mDigits.emplace_back(padidnon, signal);
+    mDigits.emplace_back(padidnon, signal,labelIndex);
     ++ndigits;
     // }
   }
@@ -242,7 +242,7 @@ void Digitizer::setEventID( int v )
 {
   // set current MC event ID
   if (v > MCCompLabel::maxEventID()) {
-    LOG(FATAL) << "MC event id " << v << " exceeds max storabel in the label " << MCComplabel::maxEventID() << FairLogger::endl;
+    LOG(FATAL) << "MC event id " << v << " exceeds max storabel in the label " << MCCompLabel::maxEventID() << FairLogger::endl;
   }
-  mEvID = v; 
+  mEventID = v; 
 }

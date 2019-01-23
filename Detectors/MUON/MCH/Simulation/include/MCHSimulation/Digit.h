@@ -31,7 +31,7 @@ class Digit : public DigitBase
  public:
   Digit() = default;
 
-  Digit(int pad, double adc); //check if need uint32_to
+  Digit(int pad, double adc, int label); //check if need uint32_to
   ~Digit() = default;
 
   int getPadID() const { return mPadID; }
@@ -41,12 +41,12 @@ class Digit : public DigitBase
   void setADC(double adc) { mADC = adc; }
 
   int getLabel() const { return mLabel; }
-  void setLabel(Int_t label) { mLabel = label; }
+  void setLabel(int label) { mLabel = label; }
 
  private:
   int mPadID;
   double mADC;
-  int mlabel;
+  int mLabel;
 
   ClassDefNV(Digit, 1);
 }; //class Digit

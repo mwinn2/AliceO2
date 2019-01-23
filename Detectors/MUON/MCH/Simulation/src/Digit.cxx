@@ -15,6 +15,6 @@ using namespace o2::mch;
 ClassImp(o2::mch::Digit);
 
 Digit::Digit(int pad, double adc, int label = -1)
-  : mPadID(pad), mADC(adc), mlabel(label)
+  : mPadID(pad), mADC(adc), mLabel(label)
 {
 }
