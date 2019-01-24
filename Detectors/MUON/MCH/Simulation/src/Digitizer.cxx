@@ -243,7 +243,7 @@ void Digitizer::setEventID( int v )
   mEventID = v; 
 }
 //______________________________________________________________________
-void provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mcContainer)
+void Digitizer::provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mcContainer)
 {
   //fill MCtruth info
   //works only if called after process (ugly!!!!!)
