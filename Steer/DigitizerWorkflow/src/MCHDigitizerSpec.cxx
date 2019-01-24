@@ -132,7 +132,7 @@ class MCHDPLDigitizerTask
     
     LOG(INFO) << "Have " << labelAccum.getNElements() << " MCH labels ";//does not work out!
     pc.outputs().snapshot(Output{ "MCH", "DIGITS", 0, Lifetime::Timeframe }, digitsAccum);
-    //    pc.outputs().snapshot(Output{"MCH","DIGITSMCTR", 0, Lifetime::Timeframe }, labelAccum);
+    pc.outputs().snapshot(Output{"MCH","DIGITSMCTR", 0, Lifetime::Timeframe }, labelAccum);
     LOG(INFO) << "MCH: Sending ROMode= " << mROMode << " to GRPUpdater";
     //ROMode: to be understood, check EMCal etc.
     pc.outputs().snapshot(Output{ "MCH", "ROMode", 0, Lifetime::Timeframe }, mROMode);
@@ -163,9 +163,7 @@ o2::framework::DataProcessorSpec getMCHDigitizerSpec(int channel)
     Outputs{ OutputSpec{ "MCH", "DIGITS", 0, Lifetime::Timeframe },
 	     OutputSpec{ "MCH", "DIGITSMCTR", 0, Lifetime::Timeframe },
              OutputSpec{ "MCH", "ROMode", 0, Lifetime::Timeframe } },
-
     AlgorithmSpec{ adaptFromTask<MCHDPLDigitizerTask>() },
-
     Options{ { "simFile", VariantType::String, "o2sim.root", { "Sim (background) input filename" } },
              { "simFileS", VariantType::String, "", { "Sim (signal) input filename" } } }
   };
