@@ -68,8 +68,13 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
   //to be added: exception handling
   for (auto& hit : hits) {
     int labelIndex = mMCTruthContainer.getIndexedSize();//index for this hit
-    processHit(hit, mEventTime, labelIndex);
-
+    int detID = hit.GetDetectorID();
+    if(detID<299){
+      processHit(hit, detID, mMuonresponse_stat1, mEventTime, labelIndex);
+    } else {
+      processHit(hit, detID, mMuonresponse_stat2, mEventTime, labelIndex);
+    }
+ 
     MCCompLabel label(hit.GetTrackID(), mEventID, mSrcID);
     //Todo:: check/update DPL workflow how EventID and srcID set
     mMCTruthContainer.addElementRandomAccess(labelIndex,label);//ToDo: check if needed like this
@@ -86,23 +91,20 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
 }
 
 //______________________________________________________________________
-int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
+int Digitizer::processHit(const Hit& hit, int detID, Response response, double event_time, int labelIndex)
 {
   //Question: what happens if several tracks producing signal on same pad up to now? -> should be additive? is this the case?
-  //labelIndex: to be done:
   //assign the labelIndex to every digit that corresponds to
   //this hit
-  //if multiple hits on producing same digit or multiple
-  //hit position(cm)
+  //hit position(cm),hit has global coordinates
   Point3D<float> pos(hit.GetX(), hit.GetY(), hit.GetZ());
-  //hit has global coordinates
+  
   //convert energy to charge, float enough?
-  float charge = mMuonresponse.etocharge(hit.GetEnergyLoss());
-  //std::cout << "charge " << charge << std::endl;
+  float charge = response.etocharge(hit.GetEnergyLoss());
 
   //time information
   float time = hit.GetTime(); //to be used for pile-up
-  int detID = hit.GetDetectorID();
+
   //get index for this detID
   int indexID = mdetID.at(detID);
   //# digits for hit
@@ -113,14 +115,13 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
   Point3D<float> lpos;
   t.MasterToLocal(pos, lpos);
 
-  float anodpos = mMuonresponse.getAnod(lpos.X(), detID);
-
+  float anodpos = response.getAnod(lpos.X());
   //TODO/Questions:
   //- possibility to do random seeding in controlled way?
   //distance of impact point and anode, needed for charge sharing
   float anoddis = TMath::Abs(pos.X() - anodpos);
   //should be related to electrons fluctuating out/in one/both halves (independent x)
-  float fracplane = mMuonresponse.chargeCorr();
+  float fracplane = response.chargeCorr();
   //should become a function of anoddis
   //std::cout << "fracplane " << fracplane << std::endl;
   float chargebend = fracplane * charge;
@@ -130,10 +131,10 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
   float signal = 0.0;
 
   //borders of charge gen.
-  double xMin = anodpos - mMuonresponse.getQspreadX() * 0.5;
-  double xMax = anodpos + mMuonresponse.getQspreadX() * 0.5;
-  double yMin = lpos.Y() - mMuonresponse.getQspreadY() * 0.5;
-  double yMax = lpos.Y() + mMuonresponse.getQspreadY() * 0.5;
+  double xMin = anodpos - response.getQspreadX() * 0.5;
+  double xMax = anodpos + response.getQspreadX() * 0.5;
+  double yMin = lpos.Y() - response.getQspreadY() * 0.5;
+  double yMax = lpos.Y() + response.getQspreadY() * 0.5;
 
   //pad-borders
   float xmin = 0.0;
@@ -168,21 +169,19 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
     // 1st step integrate induced charge for each pad
     if (mSeg[indexID].isBendingPad(padid))
       {
-	signal = mMuonresponse.chargePad(xmin, xmax, ymin, ymax, detID, chargebend);
+	signal = response.chargePad(xmin, xmax, ymin, ymax, chargebend);
       } else
       {
-	signal = mMuonresponse.chargePad(xmin, xmax, ymin, ymax, detID, chargenon);
+	signal = response.chargePad(xmin, xmax, ymin, ymax, chargenon);
       }
     // if(signal>mMuonresponse.getChargeThreshold()
     //&&     signal<mMuonresponse.getChargeSat()//not yet tuned
     //  ) {
     //translate charge in signal
-    signal = mMuonresponse.response(signal, detID);
+    signal = response.response(signal);
     //write digit
     mDigits.emplace_back(padid, signal, labelIndex);
-    //to do check if label is really making sense
-    //i.e. what happens if multiple hits for one pad
-    ++ndigits;
+     ++ndigits;
     //  }
   } 
   return ndigits;

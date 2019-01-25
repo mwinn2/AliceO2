@@ -22,6 +22,40 @@
 using namespace o2::mch;
 
 //_____________________________________________________________________
+void Response::init()
+{
+  if (mStation==0) 
+    {
+      //parameter for Mathieson station 1
+      mK2x = 1.021026;
+      mSqrtK3x = 0.7000;
+      mK4x = 0.40934890;
+      mK2y = 0.9778207;
+      mSqrtK3y = 0.7550;
+      mK4y = 0.38658194;
+      //inverse anode-cathode Pitch in 1/cm, station 1
+      mInversePitch = 1. / 0.21;
+    } else if((mStation>0)&&(mStation<5))
+    {
+      //parameter for Mathieson station 2-5
+      mK2x = 1.010729;
+      mSqrtK3x = 0.7131;
+      mK4x = 0.40357476;
+      mK2y = 0.970595;
+      mSqrtK3y = 0.7642;
+      mK4y = 0.38312571;
+      //inverse anode-cathode Pitch in 1/cm, station 2-5
+      mInversePitch = 1. / 0.25;
+  } else
+    {
+    LOG(ERROR) << "station number for response out of bound for MCH ";
+    return;
+    }
+  
+}
+
+
+//_____________________________________________________________________
 float Response::etocharge(float edepos)
 {
   //Todo convert in charge in number of electrons
@@ -48,46 +82,39 @@ float Response::etocharge(float edepos)
   return charge;
 }
 //_____________________________________________________________________
-double Response::chargePad(float xmin, float xmax, float ymin, float ymax, int detID, float charge)
+double Response::chargePad(float xmin, float xmax, float ymin, float ymax, float charge)
 {
   //see AliMUONResponseV0.cxx (inside DisIntegrate)
   // and AliMUONMathieson.cxx (IntXY)
-  int station = 0;
-  if (detID > 299)
-    station = 1;
   //see: https://edms.cern.ch/ui/file/1054937/1/ALICE-INT-2009-044.pdf
   // normalise w.r.t. Pitch
 
-  xmin *= mInversePitch[station];
-  xmax *= mInversePitch[station];
-  ymin *= mInversePitch[station];
-  ymax *= mInversePitch[station];
+  xmin *= mInversePitch;
+  xmax *= mInversePitch;
+  ymin *= mInversePitch;
+  ymax *= mInversePitch;
 
   // The Mathieson function integral
-  double ux1 = mSqrtK3x[station] * TMath::TanH(mK2x[station] * xmin);
-  double ux2 = mSqrtK3x[station] * TMath::TanH(mK2x[station] * xmax);
-  double uy1 = mSqrtK3y[station] * TMath::TanH(mK2y[station] * ymin);
-  double uy2 = mSqrtK3y[station] * TMath::TanH(mK2y[station] * ymax);
+  double ux1 = mSqrtK3x * TMath::TanH(mK2x * xmin);
+  double ux2 = mSqrtK3x * TMath::TanH(mK2x * xmax);
+  double uy1 = mSqrtK3y * TMath::TanH(mK2y * ymin);
+  double uy2 = mSqrtK3y * TMath::TanH(mK2y * ymax);
 
-  return 4. * mK4x[station] * (TMath::ATan(ux2) - TMath::ATan(ux1)) *
-         mK4y[station] * (TMath::ATan(uy2) - TMath::ATan(uy1)) * charge;
+  return 4. * mK4x * (TMath::ATan(ux2) - TMath::ATan(ux1)) *
+         mK4y * (TMath::ATan(uy2) - TMath::ATan(uy1)) * charge;
 }
 //______________________________________________________________________
-double Response::response(float charge, int detID)
+double Response::response(float charge)
 {
   //to be done: calculate from induced charge signal
   return charge;
 }
 //______________________________________________________________________
-float Response::getAnod(float x, int detID)
+float Response::getAnod(float x)
 {
-  float pitch = mInversePitch[1];
-  if (detID < 299)
-    pitch = mInversePitch[0]; //guess for numbers!
-
-  int n = Int_t(x / pitch);
+  int n = Int_t(x / mInversePitch);
   float wire = (x > 0) ? n + 0.5 : n - 0.5;
-  return pitch * wire;
+  return mInversePitch * wire;
 }
 //______________________________________________________________________
 float Response::chargeCorr()

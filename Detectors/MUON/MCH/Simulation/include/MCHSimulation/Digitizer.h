@@ -37,7 +37,7 @@ namespace mch
 class Digitizer
 {
  public:
-  Digitizer(Int_t mode = 0);
+  Digitizer(int mode = 0);
 
   ~Digitizer() = default;
 
@@ -83,9 +83,10 @@ class Digitizer
   //MCLabel container (output): why needed?
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthOutputContainer;
   //member with parameters and signal generation
-  Response mMuonresponse;
+  Response mMuonresponse_stat1{ 0 };//station 1
+  Response mMuonresponse_stat2{ 1 };//station 2-5
 
-  int processHit(const Hit& hit, double event_time, int labelIndex);
+  int processHit(const Hit& hit, int detID, Response response,  double event_time, int labelIndex);
 
 };
 
