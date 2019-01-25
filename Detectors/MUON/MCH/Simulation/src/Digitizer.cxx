@@ -151,57 +151,40 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
 
   //need to keep both electros separated since afterwards signal generation on each plane
   //how misalignment enters?
-  std::vector<int> padIDsbend;
-  std::vector<int> padIDsnon;
+  std::vector<int> padIDs;
 
   //retrieve pads with signal
-  mSeg[indexID].Bending().forEachPadInArea(xMin, yMin, xMax, yMax, [&padIDsbend](int padid) { padIDsbend.emplace_back(padid); });
-  mSeg[indexID].NonBending().forEachPadInArea(xMin, yMin, xMax, yMax, [&padIDsnon](int padid) { padIDsnon.emplace_back(padid); });
+  mSeg[indexID].forEachPadInArea(xMin, yMin, xMax, yMax, [&padIDs](int padid) { padIDs.emplace_back(padid); });
 
   //induce signal pad-by-pad: bending
-  for (auto& padidbend : padIDsbend) {
+  for (auto& padid : padIDs) {
     //squeeze both loop, in one if statement for signal
     //retrieve coordinates for each pad
-    xmin = (anodpos - mSeg[indexID].padPositionX(padidbend)) - mSeg[indexID].padSizeX(padidbend) * 0.5;
-    xmax = xmin + mSeg[indexID].padSizeX(padidbend);
-    ymin = (lpos.Y() - mSeg[indexID].padPositionY(padidbend)) - mSeg[indexID].padSizeY(padidbend) * 0.5;
-    ymax = ymin + mSeg[indexID].padSizeY(padidbend);
+    xmin = (anodpos - mSeg[indexID].padPositionX(padid)) - mSeg[indexID].padSizeX(padid) * 0.5;
+    xmax = xmin + mSeg[indexID].padSizeX(padid);
+    ymin = (lpos.Y() - mSeg[indexID].padPositionY(padid)) - mSeg[indexID].padSizeY(padid) * 0.5;
+    ymax = ymin + mSeg[indexID].padSizeY(padid);
 
     // 1st step integrate induced charge for each pad
-    signal = mMuonresponse.chargePad(xmin, xmax, ymin, ymax, detID, chargebend);
+    if (mSeg[indexID].isBendingPad(padid))
+      {
+	signal = mMuonresponse.chargePad(xmin, xmax, ymin, ymax, detID, chargebend);
+      } else
+      {
+	signal = mMuonresponse.chargePad(xmin, xmax, ymin, ymax, detID, chargenon);
+      }
     // if(signal>mMuonresponse.getChargeThreshold()
     //&&     signal<mMuonresponse.getChargeSat()//not yet tuned
     //  ) {
     //translate charge in signal
     signal = mMuonresponse.response(signal, detID);
     //write digit
-    mDigits.emplace_back(padidbend, signal, labelIndex);
+    mDigits.emplace_back(padid, signal, labelIndex);
     //to do check if label is really making sense
     //i.e. what happens if multiple hits for one pad
     ++ndigits;
     //  }
-  }
-  //induce signal pad-by-pad: nonbending
-  for (auto& padidnon : padIDsnon) {
-    //retrieve coordinates for each pad
-    xmin = (anodpos - mSeg[indexID].padPositionX(padidnon)) - mSeg[indexID].padSizeX(padidnon) * 0.5;
-    xmax = xmin + mSeg[indexID].padSizeX(padidnon);
-    ymin = (lpos.Y() - mSeg[indexID].padPositionY(padidnon)) - mSeg[indexID].padSizeY(padidnon) * 0.5;
-    ymax = ymin + mSeg[indexID].padSizeY(padidnon);
-
-    // 1st step integrate induced charge for each pad
-    signal = mMuonresponse.chargePad(xmin, xmax, ymin, ymax, detID, chargenon);
-    //check if signal above threshold
-    // if(signal>mMuonresponse.getChargeThreshold()
-    //&& signal<mMuonresponse.getChargeSat()//not yet tuned
-    // ) {
-    //translate charge in signal
-    signal = mMuonresponse.response(signal, detID);
-    //write digit
-    mDigits.emplace_back(padidnon, signal,labelIndex);
-    ++ndigits;
-    // }
-  }
+  } 
   return ndigits;
 }
 //______________________________________________________________________

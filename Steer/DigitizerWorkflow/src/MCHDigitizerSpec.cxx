@@ -163,9 +163,9 @@ o2::framework::DataProcessorSpec getMCHDigitizerSpec(int channel)
       Outputs{ OutputSpec{ "MCH", "DIGITS", 0, Lifetime::Timeframe },
 	  OutputSpec{ "MCH", "DIGITSMCTR", 0, Lifetime::Timeframe },
 	    OutputSpec{ "MCH", "ROMode", 0, Lifetime::Timeframe } },
-    AlgorithmSpec{ adaptFromTask<MCHDPLDigitizerTask>() },
-    Options{ { "simFile", VariantType::String, "o2sim.root", { "Sim (background) input filename" } },
-             { "simFileS", VariantType::String, "", { "Sim (signal) input filename" } } }
+	AlgorithmSpec{ adaptFromTask<MCHDPLDigitizerTask>() },
+	  Options{ { "simFile", VariantType::String, "o2sim.root", { "Sim (background) input filename" } },
+	      { "simFileS", VariantType::String, "", { "Sim (signal) input filename" } } }
   };
 }
 
