@@ -232,7 +232,7 @@ void Digitizer::provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mc
   //works only if called after process (ugly!!!!!)
   mcContainer.clear();
   if (mMCTruthOutputContainer.getNElements()==0)//tbc if working...
-      return;
+    return;
   
   for (int index =0; index < mMCTruthOutputContainer.getIndexedSize(); ++index) {
     mcContainer.addElements(index, mMCTruthOutputContainer.getLabels(index));
