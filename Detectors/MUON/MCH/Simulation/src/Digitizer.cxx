@@ -160,6 +160,7 @@ int Digitizer::processHit(const Hit& hit, double event_time, int labelIndex)
 
   //induce signal pad-by-pad: bending
   for (auto& padidbend : padIDsbend) {
+    //squeeze both loop, in one if statement for signal
     //retrieve coordinates for each pad
     xmin = (anodpos - mSeg[indexID].padPositionX(padidbend)) - mSeg[indexID].padSizeX(padidbend) * 0.5;
     xmax = xmin + mSeg[indexID].padSizeX(padidbend);

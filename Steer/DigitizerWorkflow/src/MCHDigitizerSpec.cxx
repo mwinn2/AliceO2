@@ -158,11 +158,11 @@ o2::framework::DataProcessorSpec getMCHDigitizerSpec(int channel)
   //  options that can be used for this processor (here: input file names where to take the hits)
   return DataProcessorSpec{
     "MCHDigitizer",
-    Inputs{ InputSpec{ "collisioncontext", "SIM", "COLLISIONCONTEXT", static_cast<SubSpecificationType>(channel), Lifetime::Timeframe } },
-
-    Outputs{ OutputSpec{ "MCH", "DIGITS", 0, Lifetime::Timeframe },
-	     OutputSpec{ "MCH", "DIGITSMCTR", 0, Lifetime::Timeframe },
-             OutputSpec{ "MCH", "ROMode", 0, Lifetime::Timeframe } },
+      Inputs{ InputSpec{ "collisioncontext", "SIM", "COLLISIONCONTEXT", static_cast<SubSpecificationType>(channel), Lifetime::Timeframe } },
+      
+      Outputs{ OutputSpec{ "MCH", "DIGITS", 0, Lifetime::Timeframe },
+	  OutputSpec{ "MCH", "DIGITSMCTR", 0, Lifetime::Timeframe },
+	    OutputSpec{ "MCH", "ROMode", 0, Lifetime::Timeframe } },
     AlgorithmSpec{ adaptFromTask<MCHDPLDigitizerTask>() },
     Options{ { "simFile", VariantType::String, "o2sim.root", { "Sim (background) input filename" } },
              { "simFileS", VariantType::String, "", { "Sim (signal) input filename" } } }
