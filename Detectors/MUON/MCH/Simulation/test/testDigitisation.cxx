@@ -7,7 +7,7 @@
 // In applying this license CERN does not waive the privileges and immunities
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
-/// \file testTPCDigitContainer.cxx
+/// \file testDigitisation.cxx
 /// \brief This task tests the Digitizer and the Response of the MCH digitization
 /// \author Michael Winn, DPhN/IRFU/CEA, michael.winn@cern.ch
 
@@ -19,7 +19,6 @@
 #include <vector>
 #include "MCHSimulation/Digit.h"
 #include "MCHSimulation/Digitizer.h"
-#include "MCHSimulation/Response.h"
 
 namespace o2
 {
@@ -42,7 +41,11 @@ BOOST_AUTO_TEST_CASE(Response_test)
   
 BOOST_AUTO_TEST_CASE(Digitizer_test1)
 {
-Digitizer digitizer;
+  
+  Digitizer digitizer;
+  //test amplification
+  
+ 
   //need to produce hits with proper MC labels
   std::vector<Hit> hits = ;
   // one hit per station, if feasible and energy deposition such that from 1 to 4 pad digits all included
