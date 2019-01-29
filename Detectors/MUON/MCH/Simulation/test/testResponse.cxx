@@ -33,10 +33,10 @@ BOOST_AUTO_TEST_CASE(Response_test)
   //check transition between energy and charge?
   //check integration via Mathieson
   //check FEE response, station 1 and 2-5 only different for Mathieson integral for the time being
-  Response r_stat1 = response(0);//station 1
-  Response r_stat1 = response(1);//station 2-5
+  Response r_stat1 = Response(0);//station 1
+  Response r_stat2 = Response(1);//station 2-5
   //check threshold
-  float threshold = response(0).getChargeThreshold();
+  float threshold = r_stat1.getChargeThreshold();
   float threshold_target = 1e-4;
   float threshold_precision = threshold_target/10.f;
   BOOST_CHECK_CLOSE(threshold, threshold, threshold_target, threshold_precision);
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(Response_test)
   TH1D hTest("hTest", "", 10000, 0, 1000);
   TF1 gaus("gaus", "gaus");
   for(Int_t = 0; i<100000; i++) {
-    hTest.Fill(response.etatocharge(eloss));
+    hTest.Fill(r_stat1.etatocharge(eloss));
   }
 
   hTest.Fit("gaus","Q");
@@ -61,12 +61,24 @@ BOOST_AUTO_TEST_CASE(Response_test)
   
   //test Mathieson integration on Pad
   //total charge to be distributed
-  float charge_on_pad = 100.f;
+  float charge_on_plane = 100.f;
   //borders, one wire pitch distance to hit
   //smallest pad dimension for  stat.1 (bending plane)
   float xmin = 0.21;
-  float xmax = 0.3;
-    float
+  float xmax = 0.0;
+  float ymin =0.0;
+  float ymax =0.0;
+
+  //
+  float expected_chargeonpad = 0.0;//hard coded
+  //or from some alternative implementation of Mathieson?
+  float chargeonpad_precision = expected_chargeonpad/100.f;
+  float result_chargeonpad =  r_stat1.chargePad(xmin,xmax,ymin,ymax,charge_on_plane);
+  BOOST_CHECK_CLOSE(result_chargeonpad,expected_chargeonpad,chargeonpad_precision);
+  //todo test r_stat2
+  
+  //todo some test of chargeCorr? function
+  
   
 }
 
