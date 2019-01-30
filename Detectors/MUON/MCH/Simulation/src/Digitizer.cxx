@@ -174,7 +174,7 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
     ymin = (lpos.Y() - mSeg[indexID].padPositionY(padid)) - mSeg[indexID].padSizeY(padid) * 0.5;
     ymax = ymin + mSeg[indexID].padSizeY(padid);
     std::cout <<" mSeg[indexID].isBendingPad(padid) " << mSeg[indexID].isBendingPad(padid) << std::endl;
-    std::cout << "mSeg[indexID].Bending().nofPads() " << mSeg[indexID].Bending().nofPads() << std::endl;
+    std::cout << "mSeg[indexID].bending().nofPads() " << mSeg[indexID].bending().nofPads() << std::endl;
     std::cout << " padid " << padid << std::endl;
     // 1st step integrate induced charge for each pad
     if (mSeg[indexID].isBendingPad(padid))
