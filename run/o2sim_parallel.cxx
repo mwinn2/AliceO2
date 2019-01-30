@@ -27,6 +27,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "Framework/FreePortFinder.h"
+#include <sys/types.h>
 
 const char* serverlogname = "serverlog";
 const char* workerlogname = "workerlog";
@@ -42,17 +43,23 @@ void cleanup()
     std::cerr << "------------- START OF EVENTSERVER LOG ----------" << std::endl;
     std::stringstream catcommand1;
     catcommand1 << "cat " << serverlogname << ";";
-    system(catcommand1.str().c_str());
+    if (system(catcommand1.str().c_str()) != 0) {
+      LOG(WARN) << "error executing system call";
+    }
 
     std::cerr << "------------- START OF SIM WORKER(S) LOG --------" << std::endl;
     std::stringstream catcommand2;
     catcommand2 << "cat " << workerlogname << "*;";
-    system(catcommand2.str().c_str());
+    if (system(catcommand2.str().c_str()) != 0) {
+      LOG(WARN) << "error executing system call";
+    }
 
     std::cerr << "------------- START OF MERGER LOG ---------------" << std::endl;
     std::stringstream catcommand3;
     catcommand3 << "cat " << mergerlogname << ";";
-    system(catcommand3.str().c_str());
+    if (system(catcommand3.str().c_str()) != 0) {
+      LOG(WARN) << "error executing system call";
+    }
   }
 }
 
@@ -97,33 +104,30 @@ bool updatePorts(std::string configfilename)
   const int SERVERPORT = 25005;
   const int MERGERPORT = 25009;
 
-  int portstart = SERVERPORT;
+  auto pid = getpid();
+
+  int portstart = SERVERPORT + pid % 64; // somewhat randomize the port start
   int portend = 50000;
   int step = 2; // we need 2 ports
   o2::framework::FreePortFinder finder(portstart, portend, step);
+  finder.setVerbose(false); // disable verbose output
   finder.scan();
   auto newserverport = finder.port();
   auto newmergerport = newserverport + 1;
 
-  LOG(INFO) << "NEW SERVER PORT " << newserverport;
-  LOG(INFO) << "NEW MERGER PORT " << newmergerport;
+  LOG(INFO) << "SERVER PORT " << newserverport;
+  LOG(INFO) << "MERGER PORT " << newmergerport;
   // publish these numbers for other processes
   setenv("ALICE_O2SIM_SERVERPORT", std::to_string(newserverport).c_str(), 1);
   setenv("ALICE_O2SIM_MERGERPORT", std::to_string(newmergerport).c_str(), 1);
 
   // fix ports in the configuration file template (there are for sure nicer ways of doing that
-  {
-    std::stringstream sedcmd;
-    sedcmd << "sed -i'.original' "
-           << "'s/:" << SERVERPORT << "/:" << newserverport << "/' " << configfilename;
-    auto r = system(sedcmd.str().c_str());
-  }
-  {
-    std::stringstream sedcmd;
-    sedcmd << "sed -i'.original' "
-           << "'s/:" << MERGERPORT << "/:" << newmergerport << "/' " << configfilename;
-    system(sedcmd.str().c_str());
-  }
+  std::stringstream sedcmd;
+  sedcmd << "sed -i'.original' "
+         << "-e 's/:" << SERVERPORT << "/:" << newserverport << "/' "
+         << "-e 's/:" << MERGERPORT << "/:" << newmergerport << "/' "
+         << configfilename;
+  auto r = system(sedcmd.str().c_str());
   return true;
 }
 
@@ -174,10 +178,12 @@ int main(int argc, char* argv[])
   // copy topology file to working dir and update ports
   std::stringstream configss;
   configss << rootpath << "/share/config/o2simtopology.json";
-  std::string localconfig("o2simtopology.json");
+  std::string localconfig = std::string("o2simtopology_") + std::to_string(getpid()) + std::string(".json");
   std::stringstream cpcmd;
   cpcmd << "cp " << configss.str() << " " << localconfig;
-  system(cpcmd.str().c_str());
+  if (system(cpcmd.str().c_str()) != 0) {
+    LOG(WARN) << "error executing system call";
+  }
   updatePorts(localconfig.c_str());
 
   auto& conf = o2::conf::SimConfig::Instance();
@@ -220,7 +226,9 @@ int main(int argc, char* argv[])
   std::vector<int> childpids;
 
   int pipe_serverdriver_fd[2];
-  pipe(pipe_serverdriver_fd);
+  if (pipe(pipe_serverdriver_fd) != 0) {
+    perror("problem in creating pipe");
+  }
 
   // the server
   int pid = fork();
@@ -303,7 +311,9 @@ int main(int argc, char* argv[])
 
   // the hit merger
   int pipe_mergerdriver_fd[2];
-  pipe(pipe_mergerdriver_fd);
+  if (pipe(pipe_mergerdriver_fd) != 0) {
+    perror("problem in creating pipe");
+  }
 
   pid = fork();
   if (pid == 0) {
