@@ -7,15 +7,17 @@
 // In applying this license CERN does not waive the privileges and immunities
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
+///
+/// \file VertexerCPU.cxx
+/// \brief
+///
 
-#ifndef ROOTOBJECTPRODUCERSPEC_H
-#define ROOTOBJECTPRODUCERSPEC_H
+#include "ITStracking/VertexerTraitsCPU.h"
 
-#include "Framework/DataProcessorSpec.h"
+namespace o2
+{
+namespace ITS
+{
 
-namespace o2 {
-namespace qc {
-  o2::framework::DataProcessorSpec getRootObjectProducerSpec();
-}
-}
-#endif //ROOTOBJECTPRODUCERSPEC_H
+} // namespace ITS
+} // namespace o2

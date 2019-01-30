@@ -162,6 +162,7 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   std::vector<int> padIDs;
 
   //retrieve pads with signal
+
   mSeg[indexID].forEachPadInArea(xMin, yMin, xMax, yMax, [&padIDs](int padid) { padIDs.emplace_back(padid); });
 
   //induce signal pad-by-pad: bending

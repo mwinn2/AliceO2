@@ -7,20 +7,36 @@
 // In applying this license CERN does not waive the privileges and immunities
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
+///
+/// \file VertexerTraitsCPU.h
+/// \brief
+///
 
-#pragma once
+#ifndef VERTEXERTRAITSCPU_H_
+#define VERTEXERTRAITSCPU_H_
 
-class TObject;
+#include <vector>
+#include "ITStracking/VertexerTraits.h"
+#include "ITStracking/ClusterLines.h"
 
 namespace o2
 {
-namespace qc
+namespace ITS
 {
-class Producer
+
+class VertexerTraitsCPU : public VertexerTraits
 {
  public:
-  virtual TObject* produceData() const = 0;
-  virtual ~Producer() = default;
+  VertexerTraitsCPU();
+  // ~VertexerTraitsCPU();
+
+  void findLayerTracklets(const bool useMCLabels) final;
+  void findLayerVertices() final;
+
+ protected:
+  std::vector<Line> mTracklets;
 };
 }
 }
+
+#endif /* VERTEXERTRAITCPUS_H_ */

@@ -8,27 +8,19 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-#include <TH1.h>
+#ifndef STEER_DIGITIZERWORKFLOW_SRC_TPCDIGITIZERSPEC_H_
+#define STEER_DIGITIZERWORKFLOW_SRC_TPCDIGITIZERSPEC_H_
 
-#include "QCProducer/TH1Producer.h"
+#include "Framework/DataProcessorSpec.h"
 
 namespace o2
 {
-namespace qc
+namespace TPC
 {
-TH1Producer::TH1Producer(const char* histogramName, const char* histogramTitle, const int numberOfbins)
-  : mBeansNumber(numberOfbins)
-{
-  mHistogramName = histogramName;
-  mHistogramTitle = histogramTitle;
-}
 
-TObject* TH1Producer::produceData() const
-{
-  auto* histogram = new TH1F(mHistogramName.c_str(), mHistogramTitle.c_str(), mBeansNumber, mXLow, mXUp);
-  histogram->FillRandom("gaus", 1000);
+o2::framework::DataProcessorSpec getTPCDigitizerSpec(int channel, bool writeGRP);
 
-  return histogram;
-}
-}
-}
+} // end namespace TPC
+} // end namespace o2
+
+#endif /* STEER_DIGITIZERWORKFLOW_SRC_TPCDIGITIZERSPEC_H_ */

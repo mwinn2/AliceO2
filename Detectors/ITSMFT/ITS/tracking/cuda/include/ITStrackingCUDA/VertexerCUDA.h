@@ -7,34 +7,31 @@
 // In applying this license CERN does not waive the privileges and immunities
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
+///
+/// \file VertexerCUDA.h
+/// \brief
+///
 
-#pragma once
+#ifndef TRACKINGITSU_INCLUDE_VERTEXERCUDA_H_
+#define TRACKINGITSU_INCLUDE_VERTEXERCUDA_H_
 
-#include <Rtypes.h>
-
-#include "Producer.h"
-#include <string>
+#include "ITStracking/VertexerBase.h"
 
 namespace o2
 {
-namespace qc
+namespace ITS
 {
-class TH2Producer : public Producer
+
+class VertexerCUDA : public VertexerBase
 {
  public:
-  TH2Producer(const char* histogramName, const char* histogramTitle, const int bins);
-  TObject* produceData() const override;
-
- private:
-  std::string mHistogramName;
-  std::string mHistogramTitle;
-
-  const Int_t mNbinsx;
-  const Int_t mNbinsy;
-  const Double_t mXlow{ -10 };
-  const Double_t mXup{ 10 };
-  const Double_t mYlow{ -20 };
-  const Double_t mYup{ 20 };
+  VertexerCUDA();
+  virtual ~VertexerCUDA();
+  void computeLayerTracklets() final;
 };
+
+extern "C" VertexerBase* createVertexerCUDA();
 }
 }
+
+#endif /* TRACKINGITSU_INCLUDE_VERTEXERCUDA_H_ */

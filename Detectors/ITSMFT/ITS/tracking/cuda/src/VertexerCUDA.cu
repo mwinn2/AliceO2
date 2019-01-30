@@ -7,18 +7,18 @@
 // In applying this license CERN does not waive the privileges and immunities
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
-
-#ifndef STEER_DIGITIZERWORKFLOW_SRC_TPCDRIFTTIMEFILTER_H_
-#define STEER_DIGITIZERWORKFLOW_SRC_TPCDRIFTTIMEFILTER_H_
-
-#include "Framework/DataProcessorSpec.h"
+///
+/// \file TrackerTraitsNV.cu
+/// \brief
+///
 
 namespace o2
 {
-namespace steer
+namespace ITS
 {
-o2::framework::DataProcessorSpec getTPCDriftTimeDigitizer(int channel, bool cachehits = false);
-}
-}
+namespace GPU
+{
 
-#endif /* STEER_DIGITIZERWORKFLOW_SRC_TPCDRIFTTIMEFILTER_H_ */
+} // o2
+} // ITS
+} // GPU
