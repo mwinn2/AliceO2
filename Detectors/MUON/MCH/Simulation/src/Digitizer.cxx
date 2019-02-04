@@ -99,7 +99,8 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   //hit position(cm),hit has global coordinates
   std::cout <<"hit.GetX() " <<hit.GetX() <<" hit.GetY() " <<hit.GetY() <<"hit.GetZ() " << hit.GetZ()  << " hit.GetEnergyLoss() "<<  hit.GetEnergyLoss() << std::endl;
   std::cout << "hit.GetTrackID() " << hit.GetTrackID() << std::endl;
-  
+  std::cout << "hit.entrancePoint().x() " << hit.entrancePoint().x() << " hit.entrancePoint().y() " << hit.entrancePoint().y() << " hit.entrancePoint().z() " << hit.entrancePoint().z() << std::endl;
+  std::cout << "hit.exitPoint().x() " << hit.exitPoint().x() << " hit.exitPoint().y() " << hit.exitPoint().y() << " hit.exitPoint().z() " << hit.exitPoint().z() << std::endl;
   Point3D<float> pos(hit.GetX(), hit.GetY(), hit.GetZ());
   
   //convert energy to charge, float enough?
