@@ -22,6 +22,11 @@
 #include "MCHSimulation/Hit.h"
 
 
+#include "MCHMappingInterface/Segmentation.h"
+#include "SimulationDataFormat/MCCompLabel.h"
+#include "SimulationDataFormat/MCTruthContainer.h"
+
+
 namespace o2
 {
 namespace mch
@@ -90,8 +95,8 @@ BOOST_AUTO_TEST_CASE(Digitizer_test1)
 [22200]: labelIndex 0
    */
   Point3D<float> exitPoint1(-17.8136, 8.93606, -522.62);
-  Point3D<float> entrancePoint2(0.f, 1.f, 2.f);
-  Point3D<float> exitPoint2(0.f, 1.f, 2.f);
+  Point3D<float> entrancePoint2(-49.2793, 28.8673, -1441.25);
+  Point3D<float> exitPoint2(-49.2965, 28.8806, -1441.75);
   float eloss1 = 1e-6;
   float eloss2 =1e-6;
   float length = 0.f;//no ida what it is good for
@@ -146,10 +151,38 @@ hit.GetX() -49.2793 hit.GetY() 28.8673hit.GetZ() -1441.25 hit.GetEnergyLoss() 1.
   //test first only single processHit
   
   std::vector<Digit> digits;
+  mapping::Segmentation seg1{ detElemId1 };
+  mapping:: Segmentation seg2{ detElemId2 };
   process(hits, &digits);
   //digit members: 
   //retrieve information from digits: getPad(), getADC(), getLabel()
   //compare Hit
+  int digitcounter1 = 0;
+  int digitcounter2 = 1;
+  
+  for (auto& digit : digits) {
+    
+    int padid = digit.getPad();
+    int adc = digit.getADC();
+    int label = digit.getLabel();
+    
+    if(label == trackId1)
+      {
+	bool check = seg1.isValid(digit.getPad());// is pad ID unique across full detector?
+	//check true
+	//adc
+	BOOST_CHECK_CLOSE();
+	digitcounter1++;
+      } else if (label == trackId2)
+      {
+	digitcounter2++;
+      } else
+      {
+	//some boost functionality, if not  one of two values
+      };
+    
+  }
+  //check both digitcounters being between 1 and 3
 
   //what to test:
   //1) compare label of hit and of MCtruthContainer, certainly makes sense
