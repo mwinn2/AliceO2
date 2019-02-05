@@ -50,50 +50,6 @@ BOOST_AUTO_TEST_CASE(Digitizer_test1)
   short detElemId1 = 101;//check what to put
   short detElemId2 = 1012;
   Point3D<float> entrancePoint1(-17.7993, 8.929883, -522.201); //x,y,z coordinates in cm
-  /*
-     hit.GetEnergyLoss() 1.17596e-06
-        [22200]: charge 157.925
-[22200]: detID 101
-[22200]: indexID 1
-[22200]: mSeg[indexID].detElemId() 101
-[22200]: lpos.X() 17.9843 lpos.Y() 9.44883 lpos.Z() -0.209473
-[22200]: fraction charge 0.977048
-[22200]:  mSeg[indexID].isBendingPad(padid) 1
-[22200]: mSeg[indexID].bending().nofPads() 14392
-[22200]:  padid 2598
-[22200]: bending: xmin -0.343334 xmax 0.286666 ymin -0.211174 ymax 0.208826
-[22200]: padid 2598
-[22200]: signal 114.19
-[22200]: labelIndex 0
-[22200]:  mSeg[indexID].isBendingPad(padid) 0
-[22200]: mSeg[indexID].bending().nofPads() 14392
-[22200]:  padid 16981
-[22200]: nonbending: xmin -0.0283337 xmax 0.601666 ymin -0.001174 ymax 0.418826
-[22200]: padid 16981
-[22200]: signal 45.4551
-[22200]: labelIndex 0
-[22200]:  mSeg[indexID].isBendingPad(padid) 0
-[22200]: mSeg[indexID].bending().nofPads() 14392
-[22200]:  padid 16982
-[22200]: nonbending: xmin -0.0283337 xmax 0.601666 ymin -0.421174 ymax -0.001174
-[22200]: padid 16982
-[22200]: signal 44.8909
-[22200]: labelIndex 0
-[22200]:  mSeg[indexID].isBendingPad(padid) 0
-[22200]: mSeg[indexID].bending().nofPads() 14392
-[22200]:  padid 16997
-[22200]: nonbending: xmin -0.658334 xmax -0.0283337 ymin -0.421174 ymax -0.001174
-[22200]: padid 16997
-[22200]: signal 32.7726
-[22200]: labelIndex 0
-[22200]:  mSeg[indexID].isBendingPad(padid) 0
-[22200]: mSeg[indexID].bending().nofPads() 14392
-[22200]:  padid 16996
-[22200]: nonbending: xmin -0.658334 xmax -0.0283337 ymin -0.001174 ymax 0.418826
-[22200]: padid 16996
-[22200]: signal 33.1845
-[22200]: labelIndex 0
-   */
   Point3D<float> exitPoint1(-17.8136, 8.93606, -522.62);
   Point3D<float> entrancePoint2(-49.2793, 28.8673, -1441.25);
   Point3D<float> exitPoint2(-49.2965, 28.8806, -1441.75);
@@ -101,59 +57,21 @@ BOOST_AUTO_TEST_CASE(Digitizer_test1)
   float eloss2 =1e-6;
   float length = 0.f;//no ida what it is good for
   float tof = 0.0;//not used
-  /*
-hit.GetX() -49.2793 hit.GetY() 28.8673hit.GetZ() -1441.25 hit.GetEnergyLoss() 1.12173e-06
-[22200]: hit.GetTrackID() 0
-[22200]: hit.entrancePoint().x() -49.2793 hit.entrancePoint().y() 28.8673 hit.entrancePoint().z() -1441.25
-[22200]: hit.exitPoint().x() -49.2965 hit.exitPoint().y() 28.8806 hit.exitPoint().z() -1441.75
-[22200]: charge 145.878
-[22200]: detID 1012
-[22200]: indexID 142
-[22200]: mSeg[indexID].detElemId() 1012
-[22200]: lpos.X() -71.9707 lpos.Y() -9.28491 lpos.Z() -0.249413
-[22200]: fraction charge 1.01618
-[22200]:  mSeg[indexID].isBendingPad(padid) 1
-[22200]: mSeg[indexID].bending().nofPads() 4096
-[22200]:  padid 1301
-[22200]: bending: xmin -10 xmax 0 ymin -0.284906 ymax 0.215094
-[22200]: padid 1301
-[22200]: signal 58.5768
-[22200]: labelIndex 9
-[22200]:  mSeg[indexID].isBendingPad(padid) 1
-[22200]: mSeg[indexID].bending().nofPads() 4096
-[22200]:  padid 1237
-[22200]: bending: xmin 0 xmax 10 ymin -0.284906 ymax 0.215094
-[22200]: padid 1237
-[22200]: signal 58.5768
-[22200]: labelIndex 9
-[22200]:  mSeg[indexID].isBendingPad(padid) 0
-[22200]: mSeg[indexID].bending().nofPads() 4096
-[22200]:  padid 4931
-[22200]: nonbending: xmin -2.38419e-07 xmax 0.714285 ymin -9.28491 ymax 0.715094
-[22200]: padid 4931
-[22200]: signal 71.2336
-[22200]: labelIndex 9
-[22200]:  mSeg[indexID].isBendingPad(padid) 0
-[22200]: mSeg[indexID].bending().nofPads() 4096
-[22200]:  padid 4933
-[22200]: nonbending: xmin -0.714286 xmax -2.38419e-07 ymin -9.28491 ymax 0.715094
-[22200]: padid 4933
-[22200]: signal 71.2334
-[22200]: labelIndex 9
-   */
+
   //could also check to give the same input and see whether I get the same output as well
-    
   std::vector<Hit> hits(2);
   vector.at(0) = Hit(trackId1, detElemId1, entrancePoint1, exitPoint1, eloss1, length, tof);//put some values
   vector.at(1) = Hit(trackId2, detElemId2, entrancePoint2, exitPoint2, eloss2, length, tof);//put some values
   // one hit per station, if feasible and energy deposition such that from 1 to 4 pad digits all included
   //
   //test first only single processHit
-  
+  MCTruthContainer<o2::MCCompLabel> mctruthcontainer;  
   std::vector<Digit> digits;
   mapping::Segmentation seg1{ detElemId1 };
   mapping:: Segmentation seg2{ detElemId2 };
-  process(hits, &digits);
+  digitizer.process(hits, &digits);
+  digitizer.provideMC(&mctruthcontainer);
+  //todo do something with mctruth
   //digit members: 
   //retrieve information from digits: getPad(), getADC(), getLabel()
   //compare Hit
@@ -169,31 +87,58 @@ hit.GetX() -49.2793 hit.GetY() 28.8673hit.GetZ() -1441.25 hit.GetEnergyLoss() 1.
     if(label == trackId1)
       {
 	bool check = seg1.isValid(digit.getPad());// is pad ID unique across full detector?
-	//check true
-	//adc
-	BOOST_CHECK_CLOSE();
+	if (!check)   BOOST_FAIL(" digit-pad not belonging to hit det-element-ID ");
+	double padposX = seg1.padPositionX(padid);
+	double padsizeX = seg1.padSizeX(padid);
+	double padposY = seg1.padPositionY(padid);
+	double padsizeY = seg1.padSizeY(padid);
+	
+	BOOST_CHECK_CLOSE(entrancePoint1.x(), padposX, padsizeX*4.0 );
+	BOOST_CHECK_CLOSE(entrancePoint1.y(), padposY, padsizeY*4.0 );
+	
 	digitcounter1++;
       } else if (label == trackId2)
       {
+	bool check = seg2.isValid(digit.getPad());
+	if (!check)   BOOST_FAIL(" digit-pad not belonging to hit det-element-ID ");
+        double padposX = seg2.padPositionX(padid);
+        double padsizeX = seg2.padSizeX(padid);
+        double padposY = seg2.padPositionY(padid);
+        double padsizeY = seg2.padSizeY(padid);
+
+        BOOST_CHECK_CLOSE(entrancePoint2.x(), padposX, padsizeX*4.0 );
+        BOOST_CHECK_CLOSE(entrancePoint2.y(), padposY, padsizeY*4.0 );
 	digitcounter2++;
+	
       } else
       {
-	//some boost functionality, if not  one of two values
+	//some boost functionality, if not one of two values?, not found at https://www.boost.org/doc/libs/1_66_0/libs/test/doc/html/index.html
+	BOOST_FAIL(" MC-labels not matching between hit and digit ");
       };
     
   }
-  //check both digitcounters being between 1 and 3
 
+  if ( digitcounter1==0 ) BOOST_FAIL(" no digit at all from hit in station 1 ");
+  //how dead maps are considered? Are there already put to 0 in the beginning or later?
+  // upper bound as well? 5-10 digits too much for one hit?
+  if ( digitcounter1>9 ) BOOST_FAIL("more than 10 digits for one hit in station 1 ");
+  if ( digitcounter2==0 ) BOOST_FAIL(" no digit at all from hit in station 2 ");
+  if (digitcounter2>9 ) BOOST_FAIL(" more than 10 digits for one hit in station 2 ");
+  //how dead maps are considered? Are there already put to 0 in the beginning or later?
+  
   //what to test:
-  //1) compare label of hit and of MCtruthContainer, certainly makes sense
+  //1) compare label of hit and of MCtruthContainer, certainly makes sense: to be done
+  /*
+void Digitizer::provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mcContainer)
+   */
+  
   //1) check condition that equal or more than 1 digit per hit: ok, but not very stringent
   //2) compare position of digit with hit position within a certain precision?
   // (would rely on segmentation to map back from pad number to position, not really this unit)
   //3) something with charge size? Not really useful.
   //could also check charge summation for different hits acting on same pad...
-
   //should one introduce member constants and getters to display intermediate steps?
-} 
+}//testing 
 
-}
-}
+}//namespace mch
+}//namespace o2

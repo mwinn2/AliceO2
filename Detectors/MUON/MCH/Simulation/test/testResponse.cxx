@@ -86,12 +86,9 @@ BOOST_AUTO_TEST_CASE(Response_test)
   chargeonpad_precision = expected_chargeonpad/100.f;
   result_chargeonpad = r_stat2.chargePad(xmin, xmax, ymin, ymax, charge_on_plane);
   BOOST_CHECK_CLOSE(result_chargeonpad, expected_chargeonpad, chargeonpad_precision);
-  
   //todo some test of chargeCorr? function, not so obvious
-  //getAnod, necessary to do?
-  
+  //getAnod, necessary to do?  
 }
   
-}//mch
-  
+}//mch 
 }//o2

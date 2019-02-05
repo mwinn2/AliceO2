@@ -82,10 +82,7 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
     auto labels = mMCTruthContainer.getLabels(labelIndex);
     std::sort(labels.begin(), labels.end());
   } // end loop over hits
-  std::cout << "mMCTruthContainer.getIndexedSize() " << mMCTruthContainer.getIndexedSize() << std::endl;
-  std::cout << "MMCTruthContainer.getNElements() " << mMCTruthContainer.getNElements() << std::endl;
-  //TODO: merge (new member function, add charge) of digits that are on same pad:
-  //things to think about in terms of time costly
+  //TODO: check handling of multiple hits per one pad
 
   fillOutputContainer(digits);
 }
@@ -97,23 +94,16 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   //assign the labelIndex to every digit that corresponds to
   //this hit
   //hit position(cm),hit has global coordinates
-  std::cout <<"hit.GetX() " <<hit.GetX() <<" hit.GetY() " <<hit.GetY() <<"hit.GetZ() " << hit.GetZ()  << " hit.GetEnergyLoss() "<<  hit.GetEnergyLoss() << std::endl;
-  std::cout << "hit.GetTrackID() " << hit.GetTrackID() << std::endl;
-  std::cout << "hit.entrancePoint().x() " << hit.entrancePoint().x() << " hit.entrancePoint().y() " << hit.entrancePoint().y() << " hit.entrancePoint().z() " << hit.entrancePoint().z() << std::endl;
-  std::cout << "hit.exitPoint().x() " << hit.exitPoint().x() << " hit.exitPoint().y() " << hit.exitPoint().y() << " hit.exitPoint().z() " << hit.exitPoint().z() << std::endl;
   Point3D<float> pos(hit.GetX(), hit.GetY(), hit.GetZ());
   
   //convert energy to charge, float enough?
   float charge = response.etocharge(hit.GetEnergyLoss());
-  std::cout << "charge " << charge << std::endl;
   //time information
   float time = hit.GetTime(); //to be used for pile-up
 
   //get index for this detID
   int indexID = mdetID.at(detID);
-  std::cout << "detID " << detID << std::endl;
-  std::cout <<"indexID " << indexID << std::endl;
-  std::cout << "mSeg[indexID].detElemId() " << mSeg[indexID].detElemId() << std::endl;
+
   //# digits for hit
   int ndigits = 0;
 
@@ -121,7 +111,6 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   auto t = o2::mch::getTransformation(detID, *gGeoManager);
   Point3D<float> lpos;
   t.MasterToLocal(pos, lpos);
-  std::cout << "lpos.X() " <<  lpos.X() << " lpos.Y() " << lpos.Y() << " lpos.Z() " << lpos.Z()  << std::endl;
   float anodpos = response.getAnod(lpos.X());
   //TODO/Questions:
   //- possibility to do random seeding in controlled way?
@@ -129,9 +118,7 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   float anoddis = TMath::Abs(pos.X() - anodpos);
   //should be related to electrons fluctuating out/in one/both halves (independent x)
   float fracplane = response.chargeCorr();
-  std::cout << "fraction charge " << fracplane << std::endl;
   //should become a function of anoddis
-  //std::cout << "fracplane " << fracplane << std::endl;
   float chargebend = fracplane * charge;
   float chargenon = charge / fracplane;
   //last line  from Aliroot, not understood why
@@ -174,17 +161,12 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
     xmax = xmin + mSeg[indexID].padSizeX(padid);
     ymin = (lpos.Y() - mSeg[indexID].padPositionY(padid)) - mSeg[indexID].padSizeY(padid) * 0.5;
     ymax = ymin + mSeg[indexID].padSizeY(padid);
-    std::cout <<" mSeg[indexID].isBendingPad(padid) " << mSeg[indexID].isBendingPad(padid) << std::endl;
-    std::cout << "mSeg[indexID].bending().nofPads() " << mSeg[indexID].bending().nofPads() << std::endl;
-    std::cout << " padid " << padid << std::endl;
     // 1st step integrate induced charge for each pad
     if (mSeg[indexID].isBendingPad(padid))
       {
-	std::cout << "bending: xmin " << xmin << " xmax " << xmax << " ymin " << ymin << " ymax " << ymax << std::endl;
 	signal = response.chargePad(xmin, xmax, ymin, ymax, chargebend);
       } else
       {
-	std::cout << "nonbending: xmin " << xmin << " xmax " << xmax << " ymin " << ymin << " ymax " << ymax << std::endl;
 	signal = response.chargePad(xmin, xmax, ymin, ymax, chargenon);
       }
     // if(signal>mMuonresponse.getChargeThreshold()
@@ -193,9 +175,6 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
     //translate charge in signal
     signal = response.response(signal);
     //write digit
-    std::cout << "padid " << padid << std::endl;
-    std::cout << "signal " << signal << std::endl;
-    std::cout << "labelIndex " << labelIndex << std::endl;
     mDigits.emplace_back(padid, signal, labelIndex);
      ++ndigits;
     //  }
