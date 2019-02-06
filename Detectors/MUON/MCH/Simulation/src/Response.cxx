@@ -82,7 +82,7 @@ float Response::etocharge(float edepos)
   return charge;
 }
 //_____________________________________________________________________
-double Response::chargePad(float xmin, float xmax, float ymin, float ymax, float charge)
+double Response::chargePadfraction(float xmin, float xmax, float ymin, float ymax)
 {
   //see AliMUONResponseV0.cxx (inside DisIntegrate)
   // and AliMUONMathieson.cxx (IntXY)
@@ -101,7 +101,7 @@ double Response::chargePad(float xmin, float xmax, float ymin, float ymax, float
   double uy2 = mSqrtK3y * TMath::TanH(mK2y * ymax);
 
   return 4. * mK4x * (TMath::ATan(ux2) - TMath::ATan(ux1)) *
-         mK4y * (TMath::ATan(uy2) - TMath::ATan(uy1)) * charge;
+         mK4y * (TMath::ATan(uy2) - TMath::ATan(uy1));
 }
 //______________________________________________________________________
 double Response::response(float charge)

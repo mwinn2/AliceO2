@@ -164,10 +164,10 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
     // 1st step integrate induced charge for each pad
     if (mSeg[indexID].isBendingPad(padid))
       {
-	signal = response.chargePad(xmin, xmax, ymin, ymax, chargebend);
+	signal = response.chargePadfraction(xmin, xmax, ymin, ymax) * chargebend;
       } else
       {
-	signal = response.chargePad(xmin, xmax, ymin, ymax, chargenon);
+	signal = response.chargePadfraction(xmin, xmax, ymin, ymax) * chargenon;
       }
     // if(signal>mMuonresponse.getChargeThreshold()
     //&&     signal<mMuonresponse.getChargeSat()//not yet tuned
