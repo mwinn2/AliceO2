@@ -59,14 +59,15 @@ double Response::chargePadfraction(float xmin, float xmax, float ymin, float yma
   ymin *= mInversePitch;
   ymax *= mInversePitch;
 
-  // The Mathieson function integral
-  double ux1 = mSqrtK3x * TMath::TanH(mK2x * xmin);
-  double ux2 = mSqrtK3x * TMath::TanH(mK2x * xmax);
-  double uy1 = mSqrtK3y * TMath::TanH(mK2y * ymin);
-  double uy2 = mSqrtK3y * TMath::TanH(mK2y * ymax);
+  return chargefrac1d(xmin, xmax, mK2x, mSqrtK3x, mK4x) * chargepad1d(ymin, ymax, mK2y, mSqrtK3y, mK4y); 
+}
+//______________________________________________________________________
+double Response::chargefrac1d(float min, float max, double k2, double sqrtk3, double k4){
+  // The Mathieson function integral (1D)
+  double u1 = sqrtk3 * TMath::TanH( k2 * xmin );
+  double u2 = sqrtk3 * TMath::TanH( k2 * xmax );
 
-  return 4. * mK4x * (TMath::ATan(ux2) - TMath::ATan(ux1)) *
-         mK4y * (TMath::ATan(uy2) - TMath::ATan(uy1));
+  return 2. * k4 * (TMath::ATan(u2) - TMath::ATan(u2));
 }
 //______________________________________________________________________
 double Response::response(float charge)
