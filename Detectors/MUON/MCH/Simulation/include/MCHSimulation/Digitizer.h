@@ -80,7 +80,7 @@ class Digitizer
 
   //MCLabel container (transient)
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthContainer;
-  //MCLabel container (output): why needed?
+  //MCLabel container (output)
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthOutputContainer;
   //member with parameters and signal generation
   Response mMuonresponse_stat1{ 0 };//station 1

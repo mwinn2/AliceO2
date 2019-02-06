@@ -34,18 +34,18 @@ class Response
 	mK2y = 0.9778207;
 	mSqrtK3y = 0.7550;
 	mK4y = 0.38658194;
-	//inverse anode-cathode Pitch in 1/cm, station 1                                                                                                                                                                                                     
+	//inverse anode-cathode Pitch in 1/cm, station 1
 	mInversePitch = 1. / 0.21;
       } else if((mStation>0)&&(mStation<5))
     {
-      //parameter for Mathieson station 2-5                                                                                                                                                                                                                
+      //parameter for Mathieson station 2-5
       mK2x = 1.010729;
       mSqrtK3x = 0.7131;
       mK4x = 0.40357476;
       mK2y = 0.970595;
       mSqrtK3y = 0.7642;
       mK4y = 0.38312571;
-      //inverse anode-cathode Pitch in 1/cm, station 2-5                                                                                                                                                                                                   
+      //inverse anode-cathode Pitch in 1/cm, station 2-5
       mInversePitch = 1. / 0.25;
     } else
     {
@@ -71,15 +71,10 @@ class Response
   //parameter for station number
   int mStation = 0;
   //proper parameter in aliroot in AliMUONResponseFactory.cxx
-  //to be discussed n-sigma to be put, use detID to choose value?
-  //anything in segmentation foreseen?
-  //seem to be only two different values (st. 1 and st. 2-5)...overhead limited
-  //any need for separate values as in old code? in principle not...I think
   const float mQspreadX = 0.144; //charge spread in cm
   const float mQspreadY = 0.144;
-
+  
   //ChargeSlope for Station 2-5
-  //to be done: ChargeSlope 10 for station 1
   const float mChargeSlope = 25;  //why float in Aliroot?
   const float mChargeCorr = 0.11; // number from line 122
   //of AliMUONResponseFactory.cxx

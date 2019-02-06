@@ -23,15 +23,6 @@ using namespace o2::mch;
 //_____________________________________________________________________
 float Response::etocharge(float edepos)
 {
-  //Todo convert in charge in number of electrons
-  //equivalent if IntPH in AliMUONResponseV0 in Aliroot
-  //to be clarified:
-  //1) why effective parameterisation with Log?
-  //2) any will to provide random numbers
-  //3) Float in aliroot, Double needed?
-  //with central seed to be reproducible?
-  //TODO: dependence on station
-  //TODO: check slope meaning in thesis
   int nel = int(edepos * 1.e9 / 27.4);
   float charge = 0;
   if (nel == 0)
@@ -42,8 +33,9 @@ float Response::etocharge(float edepos)
       arg = gRandom->Rndm();
     charge -= mChargeSlope * TMath::Log(arg);
   }
-  //translate to fC roughly, equivalent to AliMUONConstants::DefaultADC2MV()*AliMUONConstants::DefaultA0()*AliMUONConstants::DefaultCapa() multiplication in aliroot
-  charge *= 0.61 * 1.25 * 0.2; // put this in header as constants?
+  //translate to fC roughly,
+  //equivalent to AliMUONConstants::DefaultADC2MV()*AliMUONConstants::DefaultA0()*AliMUONConstants::DefaultCapa() multiplication in aliroot
+  charge *= 0.61 * 1.25 * 0.2;
   return charge;
 }
 //_____________________________________________________________________
@@ -72,7 +64,7 @@ double Response::chargefrac1d(float min, float max, double k2, double sqrtk3, do
 //______________________________________________________________________
 double Response::response(float charge)
 {
-  //to be done: calculate from induced charge signal
+  //FEE effects
   return charge;
 }
 //______________________________________________________________________
@@ -87,6 +79,5 @@ float Response::chargeCorr()
 {
   //taken from AliMUONResponseV0
   //conceptually not at all understood why this should make sense
-  //mChargeCorr not taken
   return TMath::Exp(gRandom->Gaus(0.0, mChargeCorr / 2.0));
 }

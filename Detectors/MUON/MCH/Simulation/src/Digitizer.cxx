@@ -48,12 +48,6 @@ Digitizer::Digitizer(int) : mdetID{ createDEMap() }, mSeg{ createSegmentations()
 
 void Digitizer::init()
 {
-  // To be done:
-  //1) add a test
-  //2) check read-out chain efficiency handling in current code: simple efficiency values? masking?
-  //different strategy?
-  //3) handling of time dimension: what changes w.r.t. aliroot check HMPID
-  //4) handling of MCtruth information
 }
 
 //______________________________________________________________________
@@ -65,9 +59,9 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
   mMCTruthContainer.clear();
   
   //array of MCH hits for a given simulated event
-  //to be added: exception handling
   for (auto& hit : hits) {
-    int labelIndex = mMCTruthContainer.getIndexedSize();//index for this hit
+    int labelIndex = mMCTruthContainer.getIndexedSize();
+    //index for this hit
     int detID = hit.GetDetectorID();
     if(isStation1(detID)){
       processHit(hit, detID, mMuonresponse_stat1, mEventTime, labelIndex);
@@ -76,13 +70,10 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
     }
  
     MCCompLabel label(hit.GetTrackID(), mEventID, mSrcID);
-    //Todo:: check/update DPL workflow how EventID and srcID set
-    mMCTruthContainer.addElementRandomAccess(labelIndex,label);//ToDo: check if needed like this
-
+    mMCTruthContainer.addElementRandomAccess(labelIndex,label);
     auto labels = mMCTruthContainer.getLabels(labelIndex);
     std::sort(labels.begin(), labels.end());
-  } // end loop over hits
-  //TODO: check handling of multiple hits per one pad
+  } //loop over hits
 
   fillOutputContainer(digits);
 }
@@ -90,16 +81,13 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
 //______________________________________________________________________
 int Digitizer::processHit(const Hit& hit, int detID, Response response, double event_time, int labelIndex)
 {
-  //Question: what happens if several tracks producing signal on same pad up to now? -> should be additive? is this the case?
-  //assign the labelIndex to every digit that corresponds to
-  //this hit
   //hit position(cm),hit has global coordinates
   Point3D<float> pos(hit.GetX(), hit.GetY(), hit.GetZ());
   
-  //convert energy to charge, float enough?
+  //convert energy to charge
   float charge = response.etocharge(hit.GetEnergyLoss());
   //time information
-  float time = hit.GetTime(); //to be used for pile-up
+  float time = hit.GetTime();
 
   //get index for this detID
   int indexID = mdetID.at(detID);
@@ -112,17 +100,11 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   Point3D<float> lpos;
   t.MasterToLocal(pos, lpos);
   float anodpos = response.getAnod(lpos.X());
-  //TODO/Questions:
-  //- possibility to do random seeding in controlled way?
-  //distance of impact point and anode, needed for charge sharing
-  float anoddis = TMath::Abs(pos.X() - anodpos);
-  //should be related to electrons fluctuating out/in one/both halves (independent x)
+  //  float anoddis = TMath::Abs(pos.X() - anodpos);
   float fracplane = response.chargeCorr();
   //should become a function of anoddis
   float chargebend = fracplane * charge;
   float chargenon = charge / fracplane;
-  //last line  from Aliroot, not understood why
-  //since charge = charchbend+chargenon and not multiplication
   float signal = 0.0;
 
   //borders of charge gen.
@@ -143,19 +125,16 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   int padidnoncent = 0;
   bool padexists = mSeg[indexID].findPadPairByPosition(anodpos, lpos.Y(), padidbendcent, padidnoncent);
   if (!padexists)
-    return 0; //to be decided if needed
+    return 0;
 
-  //need to keep both electros separated since afterwards signal generation on each plane
-  //how misalignment enters?
+  //pad-id vecotr
   std::vector<int> padIDs;
 
   //retrieve pads with signal
-
   mSeg[indexID].forEachPadInArea(xMin, yMin, xMax, yMax, [&padIDs](int padid) { padIDs.emplace_back(padid); });
 
   //induce signal pad-by-pad: bending
   for (auto& padid : padIDs) {
-    //squeeze both loop, in one if statement for signal
     //retrieve coordinates for each pad
     xmin = (anodpos - mSeg[indexID].padPositionX(padid)) - mSeg[indexID].padSizeX(padid) * 0.5;
     xmax = xmin + mSeg[indexID].padSizeX(padid);
@@ -170,7 +149,7 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
 	signal = response.chargePadfraction(xmin, xmax, ymin, ymax) * chargenon;
       }
     // if(signal>mMuonresponse.getChargeThreshold()
-    //&&     signal<mMuonresponse.getChargeSat()//not yet tuned
+    //&&     signal<mMuonresponse.getChargeSat()
     //  ) {
     //translate charge in signal
     signal = response.response(signal);
@@ -182,7 +161,6 @@ int Digitizer::processHit(const Hit& hit, int detID, Response response, double e
   return ndigits;
 }
 //______________________________________________________________________
-//not clear if needed for DPL or modifications required
 void Digitizer::fillOutputContainer(std::vector<Digit>& digits)
 {
   // filling the digit container
@@ -195,8 +173,6 @@ void Digitizer::fillOutputContainer(std::vector<Digit>& digits)
     digits.emplace_back(*iter);
   }
   mDigits.erase(itBeg, iter);
-  //why needed and not directly in MCTruthContainer for EMCal?
-  //check how this is written into the output in DPL workflow
   mMCTruthOutputContainer.clear();
   for (int index =0; index < mMCTruthContainer.getIndexedSize(); ++index) {
     mMCTruthOutputContainer.addElements(index, mMCTruthContainer.getLabels(index));
@@ -224,9 +200,8 @@ void Digitizer::setEventID( int v )
 void Digitizer::provideMC(o2::dataformats::MCTruthContainer<o2::MCCompLabel>& mcContainer)
 {
   //fill MCtruth info
-  //works only if called after process (ugly!!!!!)
   mcContainer.clear();
-  if (mMCTruthOutputContainer.getNElements()==0)//tbc if working...
+  if (mMCTruthOutputContainer.getNElements()==0)
     return;
   
   for (int index =0; index < mMCTruthOutputContainer.getIndexedSize(); ++index) {
