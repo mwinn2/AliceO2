@@ -69,7 +69,7 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
   for (auto& hit : hits) {
     int labelIndex = mMCTruthContainer.getIndexedSize();//index for this hit
     int detID = hit.GetDetectorID();
-    if(detID<299){
+    if(isStation1(detID)){
       processHit(hit, detID, mMuonresponse_stat1, mEventTime, labelIndex);
     } else {
       processHit(hit, detID, mMuonresponse_stat2, mEventTime, labelIndex);

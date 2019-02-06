@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(Response_test)
 
   //or from some alternative implementation of Mathieson?
   float chargeonpad_precision = expected_chargeonpad/100.f;
-  float result_chargeonpad =  r_stat1.chargePad(xmin, xmax, ymin, ymax, charge_on_plane);
+  float result_chargeonpad =  r_stat1.chargePadfraction(xmin, xmax, ymin, ymax) * charge_on_plane;
   BOOST_CHECK_CLOSE(result_chargeonpad, expected_chargeonpad, chargeonpad_precision);
   
   //test r_stat2
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE(Response_test)
   ymax = 9.89162;
   expected_chargeonpad = 0.633606318 * charge_on_plane;
   chargeonpad_precision = expected_chargeonpad/100.f;
-  result_chargeonpad = r_stat2.chargePad(xmin, xmax, ymin, ymax, charge_on_plane);
+  result_chargeonpad = r_stat2.chargePadfraction(xmin, xmax, ymin, ymax) * charge_on_plane;
   BOOST_CHECK_CLOSE(result_chargeonpad, expected_chargeonpad, chargeonpad_precision);
   //todo some test of chargeCorr? function, not so obvious
   //getAnod, necessary to do?  

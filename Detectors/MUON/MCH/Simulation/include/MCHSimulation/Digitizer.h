@@ -86,6 +86,7 @@ class Digitizer
   Response mMuonresponse_stat1{ 0 };//station 1
   Response mMuonresponse_stat2{ 1 };//station 2-5
 
+  bool isStation1(int detID) { return (detID < 299); }
   int processHit(const Hit& hit, int detID, Response response,  double event_time, int labelIndex);
 
 };

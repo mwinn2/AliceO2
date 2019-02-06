@@ -23,11 +23,39 @@ namespace mch
 class Response
 {
  public:
-  Response(int station = 0): mStation(station) { init(); };
+  Response(int station = 0): mStation(station) {
+
+    if (mStation==0)
+      {
+	//parameter for Mathieson station 1
+	mK2x = 1.021026;
+	mSqrtK3x = 0.7000;
+	mK4x = 0.40934890;
+	mK2y = 0.9778207;
+	mSqrtK3y = 0.7550;
+	mK4y = 0.38658194;
+	//inverse anode-cathode Pitch in 1/cm, station 1                                                                                                                                                                                                     
+	mInversePitch = 1. / 0.21;
+      } else if((mStation>0)&&(mStation<5))
+    {
+      //parameter for Mathieson station 2-5                                                                                                                                                                                                                
+      mK2x = 1.010729;
+      mSqrtK3x = 0.7131;
+      mK4x = 0.40357476;
+      mK2y = 0.970595;
+      mSqrtK3y = 0.7642;
+      mK4y = 0.38312571;
+      //inverse anode-cathode Pitch in 1/cm, station 2-5                                                                                                                                                                                                   
+      mInversePitch = 1. / 0.25;
+    } else
+    {
+      LOG(ERROR) << "station number for response out of bound for MCH ";
+      return;
+    }
+  };
+  
   ~Response() = default;
 
-  void init();
-    
   float getQspreadX() { return mQspreadX; };
   float getQspreadY() { return mQspreadY; };
   float getChargeSat() { return mChargeSat; };
