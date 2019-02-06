@@ -51,7 +51,6 @@ void Digitizer::init()
 }
 
 //______________________________________________________________________
-
 void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
 {
   digits.clear();
@@ -77,7 +76,6 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
 
   fillOutputContainer(digits);
 }
-
 //______________________________________________________________________
 int Digitizer::processHit(const Hit& hit, int detID, Response response, double event_time, int labelIndex)
 {
