@@ -45,12 +45,11 @@ double Response::chargePadfraction(float xmin, float xmax, float ymin, float yma
   // and AliMUONMathieson.cxx (IntXY)
   //see: https://edms.cern.ch/ui/file/1054937/1/ALICE-INT-2009-044.pdf
   // normalise w.r.t. Pitch
-
   xmin *= mInversePitch;
   xmax *= mInversePitch;
   ymin *= mInversePitch;
   ymax *= mInversePitch;
-
+  
   return chargefrac1d(xmin, xmax, mK2x, mSqrtK3x, mK4x) * chargefrac1d(ymin, ymax, mK2y, mSqrtK3y, mK4y); 
 }
 //______________________________________________________________________
@@ -58,8 +57,7 @@ double Response::chargefrac1d(float min, float max, double k2, double sqrtk3, do
   // The Mathieson function integral (1D)
   double u1 = sqrtk3 * TMath::TanH( k2 * min );
   double u2 = sqrtk3 * TMath::TanH( k2 * max );
-
-  return 2. * k4 * (TMath::ATan(u2) - TMath::ATan(u2));
+  return 2. * k4 * (TMath::ATan(u2) - TMath::ATan(u1));
 }
 //______________________________________________________________________
 double Response::response(float charge)
