@@ -20,6 +20,28 @@
 #include "TRandom.h"
 
 using namespace o2::mch;
+
+Response::Response(Station station) : mStation(station)
+{
+  if (mStation == Station::Type1) {
+    mK2x = 1.021026;
+    mSqrtK3x = 0.7000;
+    mK4x = 0.40934890;
+    mK2y = 0.9778207;
+    mSqrtK3y = 0.7550;
+    mK4y = 0.38658194;
+    mInversePitch = 1. / 0.21; // ^cm-1
+  } else {
+    mK2x = 1.010729;
+    mSqrtK3x = 0.7131;
+    mK4x = 0.40357476;
+    mK2y = 0.970595;
+    mSqrtK3y = 0.7642;
+    mK4y = 0.38312571;
+    mInversePitch = 1. / 0.25; // cm^-1
+  }
+}
+
 //_____________________________________________________________________
 float Response::etocharge(float edepos)
 {
@@ -49,14 +71,15 @@ double Response::chargePadfraction(float xmin, float xmax, float ymin, float yma
   xmax *= mInversePitch;
   ymin *= mInversePitch;
   ymax *= mInversePitch;
-  
-  return chargefrac1d(xmin, xmax, mK2x, mSqrtK3x, mK4x) * chargefrac1d(ymin, ymax, mK2y, mSqrtK3y, mK4y); 
+
+  return chargefrac1d(xmin, xmax, mK2x, mSqrtK3x, mK4x) * chargefrac1d(ymin, ymax, mK2y, mSqrtK3y, mK4y);
 }
 //______________________________________________________________________
-double Response::chargefrac1d(float min, float max, double k2, double sqrtk3, double k4){
+double Response::chargefrac1d(float min, float max, double k2, double sqrtk3, double k4)
+{
   // The Mathieson function integral (1D)
-  double u1 = sqrtk3 * TMath::TanH( k2 * min );
-  double u2 = sqrtk3 * TMath::TanH( k2 * max );
+  double u1 = sqrtk3 * TMath::TanH(k2 * min);
+  double u2 = sqrtk3 * TMath::TanH(k2 * max);
   return 2. * k4 * (TMath::ATan(u2) - TMath::ATan(u1));
 }
 //______________________________________________________________________

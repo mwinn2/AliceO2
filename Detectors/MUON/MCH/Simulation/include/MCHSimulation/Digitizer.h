@@ -18,16 +18,10 @@
 
 #include "MCHSimulation/Digit.h"
 #include "MCHSimulation/Detector.h"
-#include "MCHSimulation/Geometry.h"
 #include "MCHSimulation/Hit.h"
-#include "MCHSimulation/Response.h"
-
-#include "MCHMappingInterface/Segmentation.h"
 
 #include "SimulationDataFormat/MCCompLabel.h"
-#include "SimulationDataFormat/MCTruthContainer.h" 
-
-#include "TGeoManager.h"
+#include "SimulationDataFormat/MCTruthContainer.h"
 
 namespace o2
 {
@@ -73,22 +67,12 @@ class Digitizer
   // digit per pad
   std::vector<Digit> mDigits;
 
-  //map between index and detector-element-ID
-  std::map<int, int> mdetID;
-  //segmentation for each detector-element
-  std::vector<mapping::Segmentation> mSeg;
-
   //MCLabel container (transient)
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthContainer;
   //MCLabel container (output)
   o2::dataformats::MCTruthContainer<o2::MCCompLabel> mMCTruthOutputContainer;
-  //member with parameters and signal generation
-  Response mMuonresponse_stat1{ 0 };//station 1
-  Response mMuonresponse_stat2{ 1 };//station 2-5
 
-  bool isStation1(int detID) { return (detID < 299); }
-  int processHit(const Hit& hit, int detID, Response response,  double event_time, int labelIndex);
-
+  int processHit(const Hit& hit, int detID, double event_time, int labelIndex);
 };
 
 } // namespace mch
