@@ -16,6 +16,7 @@
 #include <ios>
 #include <iostream>
 #include "SimulationDataFormat/MCCompLabel.h"
+#include <unordered_map>
 
 using namespace o2;
 
@@ -26,7 +27,7 @@ BOOST_AUTO_TEST_CASE(MCCompLabel_test)
 
   int ev = 200, src = 10;
   std::unordered_map<MCCompLabel, int> labelMap;
-  for (int tr=-100;tr<200;tr+=150) {
+  for (int tr = -100; tr < 200; tr += 150) {
     MCCompLabel lb(tr, ev, src);
     std::cout << "Input:   [" << src << '/' << ev << '/'
               << std::setw(6) << tr << ']' << std::endl;
