@@ -104,7 +104,7 @@ int Digitizer::processHit(const Hit& hit, int detID, double event_time, int labe
 
   Response& resp = response(isStation1(detID));
 
-  //convert energy to charge, float enough?
+  //convert energy to charge
   auto charge = resp.etocharge(hit.GetEnergyLoss());
   auto time = hit.GetTime(); //to be used for pile-up
 
@@ -124,13 +124,12 @@ int Digitizer::processHit(const Hit& hit, int detID, double event_time, int labe
   auto yMin = lpos.Y() - resp.getQspreadY() * 0.5;
   auto yMax = lpos.Y() + resp.getQspreadY() * 0.5;
 
-  //get index for this detID
-  //# digits for hit
+  //get segmentation for detector element
   auto& seg = segmentation(detID);
   auto localX = anodpos;
   auto localY = lpos.Y();
 
-  //use DetectorID to get area for signal induction
+  //get area for signal induction from segmentation
   //single pad as check
   int padidbendcent = 0;
   int padidnoncent = 0;
