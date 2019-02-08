@@ -141,8 +141,6 @@ int Digitizer::processHit(const Hit& hit, int detID, double event_time, int labe
     return 0;
   }
 
-  bool isStation1 = (detID < 400);
-
   seg.forEachPadInArea(xMin, yMin, xMax, yMax, [&resp, &digits = this->mDigits, chargebend, chargenon, localX, localY, &seg, labelIndex](int padid) {
     auto dx = seg.padSizeX(padid) * 0.5;
     auto dy = seg.padSizeY(padid) * 0.5;
