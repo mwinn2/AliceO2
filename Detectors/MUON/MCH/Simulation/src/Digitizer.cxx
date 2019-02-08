@@ -91,8 +91,6 @@ void Digitizer::process(const std::vector<Hit> hits, std::vector<Digit>& digits)
     processHit(hit, detID, mEventTime, labelIndex);
     MCCompLabel label(hit.GetTrackID(), mEventID, mSrcID);
     mMCTruthContainer.addElementRandomAccess(labelIndex, label);
-    auto labels = mMCTruthContainer.getLabels(labelIndex);
-    std::sort(labels.begin(), labels.end());
   } //loop over hits
 
   fillOutputContainer(digits);
