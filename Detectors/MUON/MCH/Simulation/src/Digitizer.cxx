@@ -105,28 +105,27 @@ int Digitizer::processHit(const Hit& hit, int detID, double event_time, int labe
   Response& resp = response(isStation1(detID));
 
   //convert energy to charge, float enough?
-  float charge = resp.etocharge(hit.GetEnergyLoss());
-  float time = hit.GetTime(); //to be used for pile-up
+  auto charge = resp.etocharge(hit.GetEnergyLoss());
+  auto time = hit.GetTime(); //to be used for pile-up
 
   //transformation from global to local
   auto t = o2::mch::getTransformation(detID, *gGeoManager);
   Point3D<float> lpos;
   t.MasterToLocal(pos, lpos);
 
-  float anodpos = resp.getAnod(lpos.X());
-  float fracplane = resp.chargeCorr();
-  float chargebend = fracplane * charge;
-  float chargenon = charge / fracplane;
+  auto anodpos = resp.getAnod(lpos.X());
+  auto fracplane = resp.chargeCorr();
+  auto chargebend = fracplane * charge;
+  auto chargenon = charge / fracplane;
 
   //borders of charge gen.
-  double xMin = anodpos - resp.getQspreadX() * 0.5;
-  double xMax = anodpos + resp.getQspreadX() * 0.5;
-  double yMin = lpos.Y() - resp.getQspreadY() * 0.5;
-  double yMax = lpos.Y() + resp.getQspreadY() * 0.5;
+  auto xMin = anodpos - resp.getQspreadX() * 0.5;
+  auto xMax = anodpos + resp.getQspreadX() * 0.5;
+  auto yMin = lpos.Y() - resp.getQspreadY() * 0.5;
+  auto yMax = lpos.Y() + resp.getQspreadY() * 0.5;
 
   //get index for this detID
   //# digits for hit
-  int ndigits = 0;
   auto& seg = segmentation(detID);
   auto localX = anodpos;
   auto localY = lpos.Y();
