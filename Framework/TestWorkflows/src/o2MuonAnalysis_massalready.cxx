@@ -64,12 +64,15 @@ WorkflowSpec defineDataProcessing(ConfigContext const& specs)
           //
           // and will return 1 - 2.
 	    // auto delta = [](float x, float y) { return x - y; };
-	  auto massmuon = [](float invBendMom1, float invBendMom2, float thetax1, float thetax2, float thetay1, float thetay2, float mass1 = 0.14, float mass2 = 0.14)
+	    auto massmuon = [](float invBendMom1, float invBendMom2, float thetax1, float thetax2, float thetay1, float thetay2 //, float mass1 = 0.14, float mass2 = 0.14
+			       )
 	    {
-	    float e1 = sqrt( mass1 * mass1 + 1/ (invBendMom1 * invBendMom1) * ( 1.0 + sin(thetay1)*sin(thetay1) * (1.0 + 1.0 / (sin(thetax1)*sin(thetax1)) ) ));
-	    float e2 = sqrt( mass2 * mass2 + 1/ (invBendMom2 * invBendMom2) * ( 1.0 + sin(thetay2)*sin(thetay2) * (1.0 + 1.0 / (sin(thetax2)*sin(thetax2)) ) ));
-	    float scalprod = 1.0 / (invBendMom1 * invBendMom2) * (1.0 + sin(thetay1) * sin(thetay1) * (1.0 + 1.0 / sin(thetax1) * sin(thetax2) ) );
-	    return sqrt( mass1 * mass1 + mass2 * mass2 + 2.0 * e1 * e2 - 2.0 * scalprod);
+	      float mass1 = 0.14;
+	      float mass2 = 0.14;
+	      float e1 = sqrt( mass1 * mass1 + 1/ (invBendMom1 * invBendMom1) * ( 1.0 + sin(thetay1)*sin(thetay1) * (1.0 + 1.0 / (sin(thetax1)*sin(thetax1)) ) ));
+	      float e2 = sqrt( mass2 * mass2 + 1/ (invBendMom2 * invBendMom2) * ( 1.0 + sin(thetay2)*sin(thetay2) * (1.0 + 1.0 / (sin(thetax2)*sin(thetax2)) ) ));
+	      float scalprod = 1.0 / (invBendMom1 * invBendMom2) * (1.0 + sin(thetay1) * sin(thetay1) * (1.0 + 1.0 / sin(thetax1) * sin(thetax2) ) );
+	      return sqrt( mass1 * mass1 + mass2 * mass2 + 2.0 * e1 * e2 - 2.0 * scalprod);
 	  };
 	  //for correlation analysis for Olltraut's paper
           // This does all the combinations for all the candidates which have
@@ -83,9 +86,11 @@ WorkflowSpec defineDataProcessing(ConfigContext const& specs)
           // * Define a column delta_eta with the difference in phi between d0 and d0bar eta
           // * Do two histograms with delta_phi, delta_eta
 	  //ok, this can be used
-	  auto combinations = o2::analysis::doSelfCombinationsWith(input, "jpsi", "fID4mu");//ivent index fID4mu"
-	  auto massmuons = combinations.Filter("").Define("massmuons", massmuon, {"fInverseBendingMomentum", "fInverseBendingMomentum", "fThetaX", "fThetaX", "fThetaY", "fThetaY", "105.65837", "105.65837" });//need to think how it knows which variable belongs to which particle
-	  
+	  auto combinations = o2::analysis::doSelfCombinationsWith(input, "mu", "fID4mu");//ivent index fID4mu"
+	  auto massmuons = combinations
+	    .Define("massmuons", massmuon, { "mu_fInverseBendingMomentum", "mubar_fInverseBendingMomentum", "mu_fThetaX", "mubar_fThetaX", "mu_fThetaY", "mubar_fThetaY"});//need to think how it knows which variable belongs to which particle
+
+	  //write a function to extract px,py,pz and to add
 
 	  auto h2 = massmuons.Histo1D("massmuons");
 	  
