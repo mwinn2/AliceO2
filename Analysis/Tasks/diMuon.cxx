@@ -25,30 +25,28 @@ using namespace o2::framework::expressions;
 
 struct DiMuonTask {
   Produces<o2::aod::Dimuons> dimuons;
-
-  // TODO: use abs, eventually use pt
-  // TODO: use values from configurables
-  // TODO: add eta cuts
-  Filter trackCuts = (aod::track::signed1Pt < 10.f) &&
-                     (aod::track::signed1Pt > -10.f);
-
-  std::unique_ptr<fastjet::BackgroundEstimatorBase> bge;
-  std::unique_ptr<fastjet::Subtractor> sub;
-
-  std::vector<fastjet::PseudoJet> pJets;
+  Produces<o2::aod::DerivedMuons> derivedmuons;
 
   void process(aod::Collision const& collision,
                aod::Muons const& muonTracks)
   {
-
+    float muonmass = 0.10566;
     for (auto it0 = muonTracks.begin(); it0 != tracks.end(); ++it0) {
       auto& muon_0 = *it0;
+      aod::DerivedMuons muondev_0 = DerivedMuons(it0.InverseBendingMomentum(), it0.ThetaX(), it0.ThetaY());
+      derivedmuons(it0.InverseBendingMomentum(), it0.ThetaX(), it0.ThetaY());
       for(auto it1 = it0 +1; it1 != tracks.end(); ++it1){
 	auto& muon_1 = *it1;
-	
-	float mass = invmassdimuon();//invmassdimuon to be implemented
+	aod::DerivedMuons muondev_1 = DerivedMuons(it1.InverseBendingMomentum(), it1.ThetaX(), it1.ThetaY());
 	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.h
 	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.cxx
+	dimuons(collision,
+		TMath::Sqrt(TMath::Sqrt(muondev_0.Px()*muondev_0.Px() + muondev_0.Py()*muondev_0.Py() + muondev_0.Pz()*muondev_0.Pz() - muonmass*muonmass )
+			    + TMath::Sqrt(muondev_1.Px()*muondev_1.Px() + muondev_1.Py()*muondev_1.Py() + muondev_1.Pz()*muondev_1.Pz() - muonmass*muonmass)
+			    ),
+		muondev_0.Px()+muondev_1.Px(), muondev_0.Py()+muondev_1.Py(), muondev_0.Pz()+muondev_1.Pz(),
+		muondev_0.globalIndex(), muondev_0.Pt(), muondev_0.Eta(), muondev_0.Phi(),
+		muondev_1.globalIndex(), muondev_1.Pt(), muondev_1.Eta(), muondev_1.Phi());
       }
     }
 };
