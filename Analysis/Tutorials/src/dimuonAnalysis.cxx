@@ -34,7 +34,7 @@ struct DimuonAnalysis {
 
   void process(aod::dimuon const& dimuon)
   {
-    hDimuonMass->Fill(dimuon.mass());
+    //    hDimuonMass->Fill(dimuon.mass());
   }
   
 };

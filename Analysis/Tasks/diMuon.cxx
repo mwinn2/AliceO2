@@ -23,36 +23,53 @@ using namespace o2;
 using namespace o2::framework;
 using namespace o2::framework::expressions;
 
+struct DerivedMuonTask{
+  Produces<o2::aod::DerivedMuons> derivedmuons; 
+
+  void process(aod::Muons const& muonTracks){
+
+     for (auto it0 = muonTracks.begin(); it0 != muonTracks.end(); ++it0) {
+       derivedmuons(it0.inverseBendingMomentum(), it0.thetaX(), it0.thetaY());
+       //Todo: add MFT information
+     }
+  }
+
+};
+
+
 struct DiMuonTask {
   Produces<o2::aod::Dimuons> dimuons;
-  Produces<o2::aod::DerivedMuons> derivedmuons;
 
   void process(aod::Collision const& collision,
-               aod::Muons const& muonTracks)
+               aod::DerivedMuons const& derivedmuonTracks)
   {
     float muonmass = 0.10566;
-    for (auto it0 = muonTracks.begin(); it0 != tracks.end(); ++it0) {
+    //to run twice the loop makes very little sense just for deriving...
+    //would be better to calculate things on the fly
+    for (auto it0 = derivedmuonTracks.begin(); it0 != derivedmuonTracks.end(); ++it0) {
       auto& muon_0 = *it0;
-      aod::DerivedMuons muondev_0 = DerivedMuons(it0.InverseBendingMomentum(), it0.ThetaX(), it0.ThetaY());
-      derivedmuons(it0.InverseBendingMomentum(), it0.ThetaX(), it0.ThetaY());
-      for(auto it1 = it0 +1; it1 != tracks.end(); ++it1){
+
+      for(auto it1 = it0 +1; it1 != derivedmuonTracks.end(); ++it1){
+	
 	auto& muon_1 = *it1;
-	aod::DerivedMuons muondev_1 = DerivedMuons(it1.InverseBendingMomentum(), it1.ThetaX(), it1.ThetaY());
 	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.h
 	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.cxx
 	dimuons(collision,
-		TMath::Sqrt(TMath::Sqrt(muondev_0.Px()*muondev_0.Px() + muondev_0.Py()*muondev_0.Py() + muondev_0.Pz()*muondev_0.Pz() - muonmass*muonmass )
-			    + TMath::Sqrt(muondev_1.Px()*muondev_1.Px() + muondev_1.Py()*muondev_1.Py() + muondev_1.Pz()*muondev_1.Pz() - muonmass*muonmass)
-			    ),
-		muondev_0.Px()+muondev_1.Px(), muondev_0.Py()+muondev_1.Py(), muondev_0.Pz()+muondev_1.Pz(),
-		muondev_0.globalIndex(), muondev_0.Pt(), muondev_0.Eta(), muondev_0.Phi(),
-		muondev_1.globalIndex(), muondev_1.Pt(), muondev_1.Eta(), muondev_1.Phi());
+		sqrtf(it0.px()*it0.px() + it0.py()*it0.py() + it0.pz()*it0.pz() - muonmass*muonmass)
+		+sqrtf(it1.px()*it1.px() + it1.py()*it1.py() + it1.pz()*it1.pz() - muonmass*muonmass),
+		it0.px()+it1.px(), it0.py()+it1.py(), it0.pz()+it1.pz(),
+		//it0.globalIndex(),
+		it0.pt(), it0.eta(), it0.phi(), it0.charge(),
+		//it1.globalIndex(),
+		it1.pt(), it1.eta(), it1.phi(), it1.charge());
       }
     }
+  }
 };
 
 WorkflowSpec defineDataProcessing(ConfigContext const&)
 {
   return WorkflowSpec{
-    adaptAnalysisTask<diMuonTask>("diMuonTask")};
+    adaptAnalysisTask<DerivedMuonTask>("derivedMuonsbuilder"),
+    adaptAnalysisTask<DiMuonTask>("diMuonBuilder")};
 }
