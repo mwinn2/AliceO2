@@ -75,7 +75,7 @@ DECLARE_SOA_TABLE(DerivedMuons, "AOD", "DERIVEDMUON",
   
 namespace dimuon
 {
-DECLARE_SOA_INDEX_COLUMN(Collision, collision);
+  //DECLARE_SOA_INDEX_COLUMN(Collision, collision);
 DECLARE_SOA_COLUMN(E, e, float, "fE");
 DECLARE_SOA_COLUMN(Px, px, float, "fPx");
 DECLARE_SOA_COLUMN(Py, py, float, "fPy");
@@ -113,8 +113,8 @@ DECLARE_SOA_DYNAMIC_COLUMN(Mass, mass, [](float e, float px, float py, float pz)
 } // namespace dimuon
 
 DECLARE_SOA_TABLE(Dimuons, "AOD", "DIMUON",
-                  //o2::soa::Index<>,
-		  dimuon::CollisionId,
+		  // o2::soa::Index<>,
+		  //dimuon::CollisionId,
 		  dimuon::E,
 		  dimuon::Px, dimuon::Py, dimuon::Pz,
 		  //dimuon::Index0Id,
@@ -128,6 +128,8 @@ DECLARE_SOA_TABLE(Dimuons, "AOD", "DIMUON",
                   dimuon::Mass<dimuon::E, dimuon::Px, dimuon::Py, dimuon::Pz>
 		  );
 
+ using Dimuon = Dimuons::iterator;
+ 
 } // namespace o2::aod
 
 using namespace o2;

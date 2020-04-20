@@ -54,7 +54,7 @@ struct DiMuonTask {
 	auto& muon_1 = *it1;
 	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.h
 	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.cxx
-	dimuons(collision,
+	dimuons(//collision,
 		sqrtf(it0.px()*it0.px() + it0.py()*it0.py() + it0.pz()*it0.pz() - muonmass*muonmass)
 		+sqrtf(it1.px()*it1.px() + it1.py()*it1.py() + it1.pz()*it1.pz() - muonmass*muonmass),
 		it0.px()+it1.px(), it0.py()+it1.py(), it0.pz()+it1.pz(),

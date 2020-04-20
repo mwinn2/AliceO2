@@ -8,8 +8,10 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
+//o2-analysis-diMuonTask --aod-file AO2D_PbPbsmall_v4.root -b | o2-analysistutorial-dimuon-analysis -b
+
 #include "TH1F.h"
-#include "TTree.h"
+//#include "TTree.h"
 
 #include "Framework/runDataProcessing.h"
 #include "Framework/AnalysisTask.h"
@@ -17,8 +19,6 @@
 #include "Framework/ASoA.h"
 
 #include "Analysis/Dimuon.h"
-
-
 
 using namespace o2;
 using namespace o2::framework;
@@ -29,20 +29,18 @@ struct DimuonAnalysis {
   void init(InitContext const&)
   {
     hDimuonMass.setObject(new TH1F("mass", "dimuon mass;mass (GeV/#it{c^{2}})",
-				   1000, 0.,12.));
+				   1000, 0., 12.));
   }
 
-  void process(aod::dimuon const& dimuon)
+  void process(aod::Dimuon const& dimuon)
   {
-    //    hDimuonMass->Fill(dimuon.mass());
+    hDimuonMass->Fill(dimuon.mass());
   }
-  
 };
 
 WorkflowSpec defineDataProcessing(ConfigContext const&)
 {
   return WorkflowSpec{
     adaptAnalysisTask<DimuonAnalysis>("dimuon-analysis")};
-
 }
   
