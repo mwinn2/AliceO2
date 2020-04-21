@@ -43,7 +43,7 @@ struct DiMuonTask {
   void process(aod::Collision const& collision,
                aod::DerivedMuons const& derivedmuonTracks)
   {
-    float muonmass = 0.10566;
+    float mMuonmassSquared = 0.10566*0.10566;
     //to run twice the loop makes very little sense just for deriving...
     //would be better to calculate things on the fly
     for (auto it0 = derivedmuonTracks.begin(); it0 != derivedmuonTracks.end(); ++it0) {
@@ -52,16 +52,15 @@ struct DiMuonTask {
       for(auto it1 = it0 +1; it1 != derivedmuonTracks.end(); ++it1){
 	
 	auto& muon_1 = *it1;
-	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.h
-	//https://github.com/alisw/AliRoot/blob/master/STEER/AOD/AliAODDimuon.cxx
-	dimuons(//collision,
-		sqrtf(it0.px()*it0.px() + it0.py()*it0.py() + it0.pz()*it0.pz() - muonmass*muonmass)
-		+sqrtf(it1.px()*it1.px() + it1.py()*it1.py() + it1.pz()*it1.pz() - muonmass*muonmass),
+	dimuons(collision,
+		1,sqrtf(it0.px()*it0.px() + it0.py()*it0.py() + it0.pz()*it0.pz() - mMuonmassSquared)
+		+sqrtf(it1.px()*it1.px() + it1.py()*it1.py() + it1.pz()*it1.pz() - mMuonmassSquared),
 		it0.px()+it1.px(), it0.py()+it1.py(), it0.pz()+it1.pz(),
 		//it0.globalIndex(),
 		it0.pt(), it0.eta(), it0.phi(), it0.charge(),
 		//it1.globalIndex(),
-		it1.pt(), it1.eta(), it1.phi(), it1.charge());
+		it1.pt(), it1.eta(), it1.phi(), it1.charge()
+		);
       }
     }
   }

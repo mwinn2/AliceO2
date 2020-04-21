@@ -25,7 +25,7 @@ namespace derivedmuon
 DECLARE_SOA_COLUMN(InverseBendingMomentum, inverseBendingMomentum, float, "fInverseBendingMomentum");
 DECLARE_SOA_COLUMN(ThetaX, thetaX, float, "fThetaX");
 DECLARE_SOA_COLUMN(ThetaY, thetaY, float, "fThetaY");
- DECLARE_SOA_DYNAMIC_COLUMN(Charge, charge, [] (float inverseBendingMomentum) {
+DECLARE_SOA_DYNAMIC_COLUMN(Charge, charge, [] (float inverseBendingMomentum) {
      if (inverseBendingMomentum > 0) return 1;
      if (inverseBendingMomentum < 0) return -1;
      return 0;
@@ -40,13 +40,11 @@ DECLARE_SOA_DYNAMIC_COLUMN(Py, py, [](float inverseBendingMomentum, float thetaY
      float bendingSlope = TMath::Tan(thetaY);
      float pYZ = (inverseBendingMomentum != 0.) ? TMath::Abs(1. / inverseBendingMomentum) : - 100000;//TODO: see above
      float pZ = -pYZ / sqrtf(1.0 + bendingSlope*bendingSlope);
-     return pZ * bendingSlope;
-   });
+     return pZ * bendingSlope; });
 DECLARE_SOA_DYNAMIC_COLUMN(Pz, pz, [](float inverseBendingMomentum, float thetaY) {
      float bendingSlope = TMath::Tan(thetaY);
      float pYZ = (inverseBendingMomentum != 0.) ? TMath::Abs(1. / inverseBendingMomentum) : - 100000;//TODO: see above
-     return -pYZ / sqrtf(1.0 + bendingSlope*bendingSlope);
-   });
+     return -pYZ / sqrtf(1.0 + bendingSlope*bendingSlope);  });
 DECLARE_SOA_DYNAMIC_COLUMN(Phi, phi, [](float thetaX, float thetaY) {
     return TMath::ACosH(TMath::Tan(thetaX)/TMath::Tan(thetaY));//sign gets lost
    });
@@ -55,8 +53,7 @@ DECLARE_SOA_DYNAMIC_COLUMN(Eta, eta, [](float inverseBendingMomentum, float thet
    });
 DECLARE_SOA_DYNAMIC_COLUMN(Pt, pt, [](float inverseBendingMomentum, float thetaX, float thetaY) {
     return sqrtf((TMath::Tan(thetaX)*TMath::Tan(thetaX)+TMath::Tan(thetaY)*TMath::Tan(thetaY))*(sqrtf(1.0 + TMath::Tan(thetaY)*TMath::Tan(thetaY)))/(inverseBendingMomentum*inverseBendingMomentum));
- });
- 
+    });
 }
  
  
@@ -75,7 +72,7 @@ DECLARE_SOA_TABLE(DerivedMuons, "AOD", "DERIVEDMUON",
   
 namespace dimuon
 {
-  //DECLARE_SOA_INDEX_COLUMN(Collision, collision);
+DECLARE_SOA_INDEX_COLUMN(Collision, collision);
 DECLARE_SOA_COLUMN(E, e, float, "fE");
 DECLARE_SOA_COLUMN(Px, px, float, "fPx");
 DECLARE_SOA_COLUMN(Py, py, float, "fPy");
@@ -105,6 +102,7 @@ DECLARE_SOA_DYNAMIC_COLUMN(Pt, pt, [](float px, float py) {
 DECLARE_SOA_DYNAMIC_COLUMN(Mass, mass, [](float e, float px, float py, float pz) {
     return sqrtf(e*e-px*px-py*py-pz*pz);//numerically, very bad way to calculate mass...
  });
+
 //TODO add:
 //MTR/MID information
 //option for cluster information (see Z-analysis)
@@ -113,8 +111,8 @@ DECLARE_SOA_DYNAMIC_COLUMN(Mass, mass, [](float e, float px, float py, float pz)
 } // namespace dimuon
 
 DECLARE_SOA_TABLE(Dimuons, "AOD", "DIMUON",
-		  // o2::soa::Index<>,
-		  //dimuon::CollisionId,
+		  o2::soa::Index<>,
+		  dimuon::CollisionId,
 		  dimuon::E,
 		  dimuon::Px, dimuon::Py, dimuon::Pz,
 		  //dimuon::Index0Id,
@@ -132,9 +130,4 @@ DECLARE_SOA_TABLE(Dimuons, "AOD", "DIMUON",
  
 } // namespace o2::aod
 
-using namespace o2;
-using namespace o2::framework;
-
-
-
-#endif // O2_ANALYSIS_SECONDARYVERTEX_H_
+#endif 
