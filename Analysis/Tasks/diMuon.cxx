@@ -53,7 +53,7 @@ struct DiMuonTask {
 	
 	auto& muon_1 = *it1;
 	dimuons(collision,
-		1,sqrtf(it0.px()*it0.px() + it0.py()*it0.py() + it0.pz()*it0.pz() - mMuonmassSquared)
+		sqrtf(it0.px()*it0.px() + it0.py()*it0.py() + it0.pz()*it0.pz() - mMuonmassSquared)
 		+sqrtf(it1.px()*it1.px() + it1.py()*it1.py() + it1.pz()*it1.pz() - mMuonmassSquared),
 		it0.px()+it1.px(), it0.py()+it1.py(), it0.pz()+it1.pz(),
 		//it0.globalIndex(),
