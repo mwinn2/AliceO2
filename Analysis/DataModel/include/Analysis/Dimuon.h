@@ -16,8 +16,6 @@
 
 #include "Framework/AnalysisDataModel.h"
 
-#include <TMath.h>
-
 namespace o2::aod
 {
 namespace derivedmuon
@@ -31,28 +29,28 @@ DECLARE_SOA_DYNAMIC_COLUMN(Charge, charge, [] (float inverseBendingMomentum) {
      return 0;
    });
 DECLARE_SOA_DYNAMIC_COLUMN(Px, px, [](float inverseBendingMomentum, float thetaX, float thetaY) {
-     float nonBendingSlope = TMath::Tan(thetaX);
-     float bendingSlope = TMath::Tan(thetaY);
-     float pYZ = (inverseBendingMomentum != 0.) ? TMath::Abs(1. / inverseBendingMomentum) : - 100000;//TODO: put proper max resolvable momentum
+     float nonBendingSlope = tanf(thetaX);
+     float bendingSlope = tanf(thetaY);
+     float pYZ = (inverseBendingMomentum != 0.) ? fabsf(1. / inverseBendingMomentum) : - 100000;//TODO: put proper max resolvable momentum
      float pZ = -pYZ / sqrtf(1.0 + bendingSlope * bendingSlope);
      return pZ * nonBendingSlope; });
 DECLARE_SOA_DYNAMIC_COLUMN(Py, py, [](float inverseBendingMomentum, float thetaY) {
-     float bendingSlope = TMath::Tan(thetaY);
-     float pYZ = (inverseBendingMomentum != 0.) ? TMath::Abs(1. / inverseBendingMomentum) : - 100000;//TODO: see above
+     float bendingSlope = tanf(thetaY);
+     float pYZ = (inverseBendingMomentum != 0.) ? fabsf(1. / inverseBendingMomentum) : - 100000;//TODO: see above
      float pZ = -pYZ / sqrtf(1.0 + bendingSlope*bendingSlope);
      return pZ * bendingSlope; });
 DECLARE_SOA_DYNAMIC_COLUMN(Pz, pz, [](float inverseBendingMomentum, float thetaY) {
-     float bendingSlope = TMath::Tan(thetaY);
-     float pYZ = (inverseBendingMomentum != 0.) ? TMath::Abs(1. / inverseBendingMomentum) : - 100000;//TODO: see above
+     float bendingSlope = tanf(thetaY);
+     float pYZ = (inverseBendingMomentum != 0.) ? fabsf(1. / inverseBendingMomentum) : - 100000;//TODO: see above
      return -pYZ / sqrtf(1.0 + bendingSlope*bendingSlope);  });
 DECLARE_SOA_DYNAMIC_COLUMN(Phi, phi, [](float thetaX, float thetaY) {
-    return TMath::ACosH(TMath::Tan(thetaX)/TMath::Tan(thetaY));//sign gets lost
+    return acoshf(tanf(thetaX)/tanf(thetaY));//sign gets lost
    });
 DECLARE_SOA_DYNAMIC_COLUMN(Eta, eta, [](float inverseBendingMomentum, float thetaX, float thetaY) {
-    return TMath::ATanH(1.0/sqrtf(1+1./(TMath::Tan(thetaX)*TMath::Tan(thetaX))+1./(TMath::Tan(thetaY)*TMath::Tan(thetaY))));
+    return atanhf(1.0/sqrtf(1+1./(tanf(thetaX)*tanf(thetaX))+1./(tanf(thetaY)*tanf(thetaY))));
    });
 DECLARE_SOA_DYNAMIC_COLUMN(Pt, pt, [](float inverseBendingMomentum, float thetaX, float thetaY) {
-    return sqrtf((TMath::Tan(thetaX)*TMath::Tan(thetaX)+TMath::Tan(thetaY)*TMath::Tan(thetaY))*(sqrtf(1.0 + TMath::Tan(thetaY)*TMath::Tan(thetaY)))/(inverseBendingMomentum*inverseBendingMomentum));
+    return sqrtf((tanf(thetaX)*tanf(thetaX)+tanf(thetaY)*tanf(thetaY))*(sqrtf(1.0 + tanf(thetaY)*tanf(thetaY)))/(inverseBendingMomentum*inverseBendingMomentum));
     });
 }
  
@@ -88,13 +86,13 @@ DECLARE_SOA_COLUMN(Eta1, eta1, float, "fEta1");
 DECLARE_SOA_COLUMN(Phi1, phi1, float, "fPhi1");
 DECLARE_SOA_COLUMN(Charge1, charge1, int, "fCharge1");
 DECLARE_SOA_DYNAMIC_COLUMN(Eta, eta, [](float px, float py, float pz) {
-    return TMath::ATanH(pz/sqrtf(px*px+py*py+pz*pz));
+    return atanhf(pz/sqrtf(px*px+py*py+pz*pz));
   });
 DECLARE_SOA_DYNAMIC_COLUMN(Y, y, [](float e, float px, float py, float pz) {
-     return TMath::ATanH(pz/sqrtf(e*e+px*px+py*py+pz*pz));
+     return atanhf(pz/sqrtf(e*e+px*px+py*py+pz*pz));
    });
 DECLARE_SOA_DYNAMIC_COLUMN(Phi, phi, [](float px, float py) {
-     return TMath::ACosH(py/sqrtf(px*px+py*py));
+     return acoshf(py/sqrtf(px*px+py*py));
    });
 DECLARE_SOA_DYNAMIC_COLUMN(Pt, pt, [](float px, float py) {
      return sqrtf(px*px+py*py);
